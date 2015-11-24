@@ -91,9 +91,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\MainStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="res\images\109677.jpg" />
+    <Content Include="res\images\118423.jpg" />
+    <Content Include="res\images\46358.jpg" />
+    <Content Include="res\images\77377.jpg" />
+    <Content Include="res\images\89455.jpg" />
+    <Content Include="res\images\97094.jpg" />
+    <Content Include="res\images\98185.jpg" />
+    <Content Include="res\images\Calc1.gif" />
+    <Content Include="res\images\digcam01.gif" />
+    <Content Include="res\images\laptop1.jpg" />
+    <Content Include="res\images\mystorebanner.jpg" />
+    <Content Include="res\images\tctbanner.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -101,9 +114,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -128,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
