@@ -1,7 +1,81 @@
 ﻿@{ 
-    @ViewBag.Title = "_MasterLayout";
+    ViewBag.Title = "_MasterLayout";
 }
 
+<html>
 <head>
-
+    <link href="~/Content/MainStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#navTable tr").hover(function () {
+                $(this).addClass("navHighlight");
+            },
+            function () {
+                $(this).removeClass("navHighlight");
+            });
+        });
+    </script>
 </head>
+<body>
+    <table border="0" style="width:100%">
+        <tr colspan="2" >
+            <td>
+                @* Banner image here *@
+                <img src="~/res/images/mystorebanner.jpg" alt="mystorebanner"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top;">
+                <table id="navTable" border="1" style="border-collapse:collapse">
+                    <tr>
+                        <td>@Html.ActionLink("Login", "Login", "Auth")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Home", "Index", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Electronics", "Electronics", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Kitchen", "Kitchen", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Luggage", "Luggage", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("View Cart", "Cart", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("News", "News", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Checkout", "Checkout", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Add Product", "AddProduct", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Upload Image", "UploadImage", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("View Products", "ViewProducts", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Contact Us", "ContactUs", "Home")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Logout", "Logout", "Auth")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Accounting", "Accounting", "Home")</td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:90%;vertical-align:top;padding-left:100px;padding-top:20px">
+                @RenderBody()
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
