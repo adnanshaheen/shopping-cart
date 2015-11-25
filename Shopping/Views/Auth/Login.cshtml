@@ -1,0 +1,41 @@
+﻿@model Shopping.Models.LoginModel
+
+@{
+    ViewBag.Title = "SignIn";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<h2>Please Sign In</h2>
+
+@using (Html.BeginForm())
+{
+    <table border="0" style="width:500px">
+        <tr>
+            <td>
+                @Html.DisplayNameFor(login => login.Username)
+            </td>
+            <td>
+                @Html.TextBoxFor(login => login.Username)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(login => login.Username)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(login => login.Password)
+            </td>
+            <td>
+                @Html.PasswordFor(login => login.Password)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(login => login.Password)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Login" id="btnLogin" name="btnLogin" />
+            </td>
+        </tr>
+    </table>
+}
