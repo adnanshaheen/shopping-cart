@@ -118,6 +118,8 @@
     <Content Include="Views\Auth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\BusinessLayer\IBusinessAuth.cs" />
+    <Content Include="App_Code\BusinessLayer\Business.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -145,6 +147,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\Cache\" />
+    <Folder Include="App_Code\DataAccess\" />
+    <Folder Include="App_Code\Utilities\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
