@@ -128,6 +128,7 @@
     <Compile Include="Data\DataAccessSql.cs" />
     <Compile Include="Data\IAuthenticate.cs" />
     <Compile Include="Data\IDataAccess.cs" />
+    <Compile Include="Data\RepositoryAbstraction.cs" />
     <Compile Include="Data\RepositoryMySql.cs" />
     <Compile Include="Data\RepositorySql.cs" />
     <Compile Include="Global.asax.cs">
