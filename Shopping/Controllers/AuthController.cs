@@ -40,5 +40,11 @@ namespace Shopping.Controllers
 
             return View(model);
         }
+
+        public ActionResult Logout()
+        {
+            iBusinessAuth.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
