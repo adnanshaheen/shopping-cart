@@ -1,0 +1,86 @@
+﻿body 
+{
+    font-family:Arial;
+    font-size:10pt;
+    color:black;
+}
+
+.myBanner
+{
+    font-family:Tahoma;
+    font-size:20pt;
+    text-align:center;
+    background-color:#ffffc0; /* light yellow */
+    color:#c00000;  /* dark red */
+}
+
+.myHeading
+{
+    font-family:Tahoma;
+    font-weight:bold;
+    font-size:12pt;
+    text-align:left;
+    color:#c00000;  /* dark red */
+}
+
+.mainButton
+{
+    color:white;
+    background-color:#c00000;
+    font-size:10pt;
+}
+
+.para1
+{
+    font-size:12pt;
+    color:#00c000;
+}
+
+.boxstyle
+{
+    border : 1px solid red;
+    background-color : #fffff0;
+}
+
+.field-validation-error {
+    font-size:10pt;
+    font-weight:bold;
+    color:red;
+}
+.field-validation-valid {
+    display: none;
+}
+.input-validation-error {
+    font-size:10pt;
+    font-weight:bold;
+    color:red;
+    background-color:#fff0f0;
+}
+
+.navHighlight
+{
+    background-color:#ffff50;
+    color:red;
+}
+
+.th {
+    background-color:coral;
+    color:white;
+    border-style: solid;
+    border-width: thin;
+    border-collapse: collapse;
+    border-color:black;
+}
+
+.tr:nth-child(odd) {
+    background-color: #ffffc0;
+}
+.tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.td {
+    border-style: solid;
+    border-width: thin;
+    border-collapse: collapse;
+}
