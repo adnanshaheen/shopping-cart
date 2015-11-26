@@ -46,5 +46,25 @@ namespace Shopping.Controllers
             iBusinessAuth.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordModel model = new ChangePasswordModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (iBusinessAuth.ChangePassword(HttpContext.User.Identity.Name, model.oldPassword, model.newPassword))
+                    model.Status = "Password updated succesfully.";
+                else
+                    model.Status = "Couldn't update the password.";
+            }
+            return View(model);
+        }
     }
 }

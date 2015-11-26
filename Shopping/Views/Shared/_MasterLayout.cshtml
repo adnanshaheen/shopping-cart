@@ -18,7 +18,7 @@
     </script>
 </head>
 <body>
-    <table border="0" style="width:100%;">
+    <table border="1" style="width:100%;">
         <tr>
             <td colspan="2">
                 @* Banner image here *@
@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td style="vertical-align:top;">
-                <table id="navTable" border="1" style="border-collapse:collapse; font-size:small;">
+                <table id="navTable" border="1" style="border-collapse:collapse; font-size:small; white-space:nowrap">
                     <tr>
                         <td>@Html.ActionLink("Login", "Login", "Auth")</td>
                     </tr>
@@ -66,6 +66,9 @@
                     </tr>
                     <tr>
                         <td>@Html.ActionLink("Logout", "Logout", "Auth")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Change Password", "ChangePassword", "Auth")</td>
                     </tr>
                     <tr>
                         <td>@Html.ActionLink("Accounting", "Accounting", "Home")</td>
