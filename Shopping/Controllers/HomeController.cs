@@ -13,5 +13,10 @@ namespace Shopping.Controllers
         {
             return View();
         }
+
+        public ActionResult News()
+        {
+            return View();
+        }
     }
 }
