@@ -71,5 +71,11 @@ namespace Shopping.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Registration(RegistrationModel model)
+        {
+            return View(model);
+        }
     }
 }
