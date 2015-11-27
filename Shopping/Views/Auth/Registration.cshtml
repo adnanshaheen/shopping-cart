@@ -1,0 +1,208 @@
+﻿@model Shopping.Models.RegistrationModel
+
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+<table style="width:100%;">
+    <tr>
+        <td colspan="3">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.FirstName)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.FirstName)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.LastName)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.LastName)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.LastName)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.StreetAddress)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.StreetAddress)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.StreetAddress)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.City)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.City)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.City)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.State)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.State)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.State)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.ZipCode)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.ZipCode)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.ZipCode)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.Email)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.Email)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.Email)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.CreditCard)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.CreditCard)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.CreditCard)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.CreditCardType)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.CreditCardType)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.CreditCardType)
+        </td>
+        @*<td style="height: 7px">
+            <asp:DropDownList ID="ddlCCType" runat="server" BackColor="#FFFFC0" Width="136px">
+                <asp:ListItem Value="VISA">Visa</asp:ListItem>
+                <asp:ListItem Value="MASTERCARD">MasterCard</asp:ListItem>
+                <asp:ListItem Value="AMERICANEXPRESS">AmericanExpress</asp:ListItem>
+                <asp:ListItem Value="DISCOVER">Discover</asp:ListItem>
+            </asp:DropDownList>
+        </td>*@
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.Expiration)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.Expiration) (mm/yy)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.Expiration)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.UserName)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.UserName)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.UserName)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.Password)
+        </td>
+        <td>
+            &nbsp;@Html.PasswordFor(m => m.Password)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.Password)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.ConfirmPwd)
+        </td>
+        <td>
+            &nbsp;@Html.PasswordFor(m => m.ConfirmPwd)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.ConfirmPwd)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.PasswordHintQ)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.PasswordHintQ)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.PasswordHintQ)
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            @Html.DisplayNameFor(m => m.PasswordHintA)
+        </td>
+        <td>
+            &nbsp;@Html.TextBoxFor(m => m.PasswordHintA)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(m => m.PasswordHintA)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Register" id="btnRegister" name="btnRegister" />
+                        </td>
+                        <td>
+                            <input type="reset" value="Reset" id="btnResetReg" name="btnResetReg" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        <td></td>
+    </tr>
+</table>
+}

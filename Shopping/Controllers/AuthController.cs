@@ -66,5 +66,10 @@ namespace Shopping.Controllers
             }
             return View(model);
         }
+
+        public ActionResult Registration()
+        {
+            return View();
+        }
     }
 }
