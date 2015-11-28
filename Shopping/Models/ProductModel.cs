@@ -16,6 +16,7 @@ namespace Shopping.Models
         public double Price { get; set; }
         public int Inventory { get; set; }
 
+        #region IEntity Members
         public void SetFeilds(DataRow dataRow)
         {
             CatagoryID = (int)dataRow["CatID"];
@@ -25,5 +26,6 @@ namespace Shopping.Models
             Price = (double)dataRow["Price"];
             Inventory = (int)dataRow["Inventory"];
         }
+        #endregion
     }
 }
