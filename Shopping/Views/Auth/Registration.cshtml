@@ -5,6 +5,61 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $(".wizardStep:first").fadeIn();    // show first step
+
+        // attach back button handler, hide the first step
+        $("#btnBack").hide().click(function () {
+            var step = $("wizardStep:visible");     // get current step
+            if (step.prev().hasClass("wizardStep")) {       // is there any previous steps
+
+                step.hide().prev().fadeIn();            // show it and hide current
+
+                // disable the back button
+                if (!step.prev().prev().hasClass("wizardStep"))
+                    $("btnBack").hide();
+            }
+            $("#btnBack").val = "Next";
+        });
+
+        // attach next button handler
+        $("#btnNext").click(function () {
+
+            var step = $("wizardStep:visible");
+            var validator = $("form").validate();
+            var error = false;
+
+            step.find("input").each(function () {
+                if (!validator.element(this))   // validate every input element inside this step
+                    anyError = true;
+            });
+
+            if (error)
+                return false;
+
+            if (step.next().hasClass("confirm")) { // is next wizardStep confirm?
+                // show confirmation asynchronously
+                $("#btnNext").val("Finish");
+                $.post("/home/confirm", $("form").serialize(), function (r) {
+                    // inject response in confirmation step
+                    $(".wizardStep.confirm").html(r);
+                });
+            }
+
+            if (step.next().hasClass("wizardStep")) { // is there any next step?
+                step.hide().next().fadeIn();  // hide current step, show next
+                $("#btnBack").show();   // show backStep button
+            }
+            else { // this is last step, submit form
+                $("form").submit();
+            }
+        });
+    });
+</script>
+
 @using (Html.BeginForm())
 {
 <table style="width:100%;">
