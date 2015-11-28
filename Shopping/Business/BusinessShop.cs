@@ -11,10 +11,12 @@ namespace Shopping.Business
     public class BusinessShop : IBusinessAuth, IBusinessShop
     {
         private IAuthenticate iAuthData = null;
+        private IRepositoryShop iRepositoryShop = null;
 
         public BusinessShop()
         {
             iAuthData = GenericFactory<RepositoryAbstraction, IAuthenticate>.CreateInstance();
+            iRepositoryShop = GenericFactory<RepositoryAbstraction, IRepositoryShop>.CreateInstance();
         }
 
         #region IBusinessAuth members
@@ -48,6 +50,7 @@ namespace Shopping.Business
         public List<ProductModel> GetProducts(string catID)
         {
             List<ProductModel> TList = new List<ProductModel>();
+            TList = iRepositoryShop.GetProducts(catID);
             return TList;
         }
         #endregion

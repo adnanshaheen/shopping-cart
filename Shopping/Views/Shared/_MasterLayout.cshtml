@@ -35,13 +35,13 @@
                         <td>@Html.ActionLink("Home", "Index", "Home")</td>
                     </tr>
                     <tr>
-                        <td>@Html.ActionLink("Electronics", "Electronics", "Home")</td>
+                        <td>@Html.ActionLink("Electronics", "Index", "Products", new { catID = 10 }, null)</td>
                     </tr>
                     <tr>
-                        <td>@Html.ActionLink("Kitchen", "Kitchen", "Home")</td>
+                        <td>@Html.ActionLink("Kitchen", "Index", "Products", new { catID = 20 }, null)</td>
                     </tr>
                     <tr>
-                        <td>@Html.ActionLink("Luggage", "Luggage", "Home")</td>
+                        <td>@Html.ActionLink("Luggage", "Index", "Products", new { catID = 30 }, null)</td>
                     </tr>
                     <tr>
                         <td>@Html.ActionLink("View Cart", "Cart", "Home")</td>

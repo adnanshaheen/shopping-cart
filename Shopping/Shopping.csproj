@@ -125,6 +125,7 @@
     <Compile Include="Business\IBusinessShop.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Data\DataAccessMySql.cs" />
     <Compile Include="Data\DataAccessSql.cs" />
     <Compile Include="Data\IAuthenticate.cs" />
@@ -159,6 +160,7 @@
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Auth\Registration.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

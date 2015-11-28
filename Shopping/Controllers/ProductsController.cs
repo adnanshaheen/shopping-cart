@@ -1,0 +1,43 @@
+﻿using Shopping.Business;
+using Shopping.Models;
+using Shopping.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace Shopping.Controllers
+{
+    public class ProductsController : Controller
+    {
+        private IBusinessShop iBusinessShop = null;
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            iBusinessShop = GenericFactory<BusinessShop, IBusinessShop>.CreateInstance();
+            base.Initialize(requestContext);
+        }
+
+        // GET: Products
+        public ActionResult Index(string catID)
+        {
+            List<ProductModel> TList = null;
+            try
+            {
+                if (iBusinessShop != null)
+                {
+                    if (string.IsNullOrEmpty(catID))
+                        catID = "10";
+                    TList = iBusinessShop.GetProducts(catID);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View(TList);
+        }
+    }
+}

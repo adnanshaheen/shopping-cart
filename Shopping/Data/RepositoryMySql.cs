@@ -160,6 +160,7 @@ namespace Shopping.Data
             List<ProductModel> TList = null;
             try
             {
+                // TODO: Add this to cache
                 if (TList == null)
                 {
                     DataTable dataTable = GetProductsDB(catID);
