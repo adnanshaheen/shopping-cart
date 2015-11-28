@@ -1,5 +1,6 @@
 ﻿using Shopping.Business;
 using Shopping.Models;
+using Shopping.Utilities;
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -13,7 +14,7 @@ namespace Shopping.Controllers
 
         protected override void Initialize(RequestContext requestContext)
         {
-            iBusinessAuth = new BusinessAuth();
+            iBusinessAuth = GenericFactory<BusinessShop, IBusinessAuth>.CreateInstance();
             base.Initialize(requestContext);
         }
 

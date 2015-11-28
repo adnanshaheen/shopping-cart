@@ -120,14 +120,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Code\Business\BusinessAuth.cs" />
-    <Compile Include="App_Code\Business\IBusinessAuth.cs" />
+    <Compile Include="Business\BusinessShop.cs" />
+    <Compile Include="Business\IBusinessAuth.cs" />
+    <Compile Include="Business\IBusinessShop.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\DataAccessMySql.cs" />
     <Compile Include="Data\DataAccessSql.cs" />
     <Compile Include="Data\IAuthenticate.cs" />
     <Compile Include="Data\IDataAccess.cs" />
+    <Compile Include="Data\IRepositoryShop.cs" />
     <Compile Include="Data\RepositoryAbstraction.cs" />
     <Compile Include="Data\RepositoryMySql.cs" />
     <Compile Include="Data\RepositorySql.cs" />
@@ -165,6 +167,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,5 @@
 ﻿using Shopping.Data;
+using Shopping.Models;
 using Shopping.Utilities;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,11 @@ using System.Web;
 
 namespace Shopping.Business
 {
-    public class BusinessAuth : IBusinessAuth
+    public class BusinessShop : IBusinessAuth, IBusinessShop
     {
         private IAuthenticate iAuthData = null;
 
-        public BusinessAuth()
+        public BusinessShop()
         {
             iAuthData = GenericFactory<RepositoryAbstraction, IAuthenticate>.CreateInstance();
         }
@@ -40,6 +41,14 @@ namespace Shopping.Business
         public bool ValidateUser(string userName, string password)
         {
             return iAuthData.ValidateUser(userName, password);
+        }
+        #endregion
+
+        #region IBusinessShop members
+        public List<ProductModel> GetProducts(string catID)
+        {
+            List<ProductModel> TList = new List<ProductModel>();
+            return TList;
         }
         #endregion
     }

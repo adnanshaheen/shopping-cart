@@ -8,10 +8,11 @@ using System.Data.Common;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using Shopping.Models;
 
 namespace Shopping.Data
 {
-    public class RepositoryMySql : IAuthenticate
+    public class RepositoryMySql : IAuthenticate, IRepositoryShop
     {
         private IDataAccess idataAccess = null;
 
@@ -20,6 +21,7 @@ namespace Shopping.Data
             idataAccess = GenericFactory<DataAccessMySql, IDataAccess>.CreateInstance();
         }
 
+        #region IAuthenticate Members
         public bool ChangePassword(string userName, string password, string newPassword)
         {
             bool bRes = false;
@@ -149,6 +151,47 @@ namespace Shopping.Data
             }
 
             return obj != null ? true : false;
+        }
+        #endregion
+
+        #region IRepositoryShop Members
+        public List<ProductModel> GetProducts(string catID)
+        {
+            List<ProductModel> TList = null;
+            try
+            {
+                if (TList == null)
+                {
+                    DataTable dataTable = GetProductsDB(catID);
+                    TList = RepositoryHelper.ConvertToList<ProductModel>(dataTable);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return TList;
+        }
+        #endregion
+
+        private DataTable GetProductsDB(string catID)
+        {
+            DataTable dataTable = null;
+            try
+            {
+                string sql = "select * from  products where catid=@catID";
+                List<DbParameter> PList = new List<DbParameter>();
+                DbParameter p1 = new MySqlParameter("@catID", MySqlDbType.VarChar, 50);
+                p1.Value = catID;
+                PList.Add(p1);
+
+                dataTable = idataAccess.GetDataTable(sql, PList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dataTable;
         }
     }
 }
