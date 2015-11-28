@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace Shopping.Utilities
 {
@@ -13,7 +10,7 @@ namespace Shopping.Utilities
 
         }
 
-        public static List<T> ConvertToList<IEntity>(DataTable dataTable)
+        public static List<T> ConvertToList<T>(DataTable dataTable)
             where T:IEntity, new()
         {
             List<T> TList = new List<T>();

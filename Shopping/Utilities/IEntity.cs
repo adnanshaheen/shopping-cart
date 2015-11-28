@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Utilities
 {
-    interface IEntity
+    public interface IEntity
     {
         void SetFeilds(DataRow dataRow);
     }
