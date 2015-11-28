@@ -1,0 +1,60 @@
+﻿@model ProductModel
+
+@using Shopping.Models;
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <table style="width:90%">
+        <tr>
+            <td></td>
+            <td style="font-size:medium; font-weight:bold; color:purple">
+                @Html.ValueFor(m => m.ShortDesc)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                $@Html.ValueFor(m => m.Price)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <img src=@Url.Content("~/res/images/" + @Model.Image) alt="@Model.Image" />
+            </td>
+            <td align="justify">
+                @Html.ValueFor(m => m.LongDesc)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <hr style="border-color:#0000FF; border-width:3px"/>
+            </td>
+        </tr>
+        @*<tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Quantity)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Quantity)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(m => m.Quantity)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" value="Add to Card" id="btnAddToCart" />
+            </td>
+            <td></td>
+        </tr>*@
+    </table>
+}

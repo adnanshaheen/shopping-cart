@@ -50,6 +50,11 @@ namespace Shopping.Data
         {
             return iRepositoryShop.GetProducts(catID);
         }
+
+        public ProductModel GetProduct(string prodId)
+        {
+            return iRepositoryShop.GetProduct(prodId);
+        }
         #endregion
     }
 }

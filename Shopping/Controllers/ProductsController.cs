@@ -39,5 +39,20 @@ namespace Shopping.Controllers
             }
             return View(TList);
         }
+
+        public ActionResult Details(string prodID)
+        {
+            ProductModel product = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(prodID))
+                    product = iBusinessShop.GetProduct(prodID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View(product);
+        }
     }
 }

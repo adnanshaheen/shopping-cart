@@ -1,0 +1,40 @@
+﻿@using Shopping.Models;
+
+@model IEnumerable<ProductModel>
+
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <table style="border:thin solid;border-collapse:collapse;width:80%">
+        <tr>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.First<ProductModel>().ShortDesc)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.First<ProductModel>().LongDesc)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.First<ProductModel>().Image)
+            </th>
+        </tr>
+
+        @foreach (ProductModel item in Model)
+        {
+            <tr class="tr">
+                <td class="td">
+                    @item.ShortDesc
+                </td>
+                <td class="td">
+                    @Html.ActionLink("Details", "Details", "Products", new { ProdID = @item.ProductID }, null)
+                </td>
+                <td class="td">
+                    <img src=@Url.Content("~/res/images/" + item.Image) alt="@item.Image" />
+                </td>
+            </tr>
+        }
+    </table>
+}

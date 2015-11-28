@@ -53,6 +53,11 @@ namespace Shopping.Business
             TList = iRepositoryShop.GetProducts(catID);
             return TList;
         }
+
+        public ProductModel GetProduct(string prodId)
+        {
+            return iRepositoryShop.GetProduct(prodId);
+        }
         #endregion
     }
 }

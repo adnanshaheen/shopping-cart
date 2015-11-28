@@ -174,6 +174,29 @@ namespace Shopping.Data
             }
             return TList;
         }
+
+        public ProductModel GetProduct(string prodId)
+        {
+            ProductModel product = null;
+            List<ProductModel> TList = null;
+            try
+            {
+                // TODO: Add this to cache
+                if (product == null)
+                {
+                    DataTable dataTable = GetProductDB(prodId);
+                    TList = RepositoryHelper.ConvertToList<ProductModel>(dataTable);
+
+                    // We should have only one item in the list
+                    product = TList.First<ProductModel>();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return product;
+        }
         #endregion
 
         private DataTable GetProductsDB(string catID)
@@ -185,6 +208,26 @@ namespace Shopping.Data
                 List<DbParameter> PList = new List<DbParameter>();
                 DbParameter p1 = new SqlParameter("@catID", SqlDbType.VarChar, 50);
                 p1.Value = catID;
+                PList.Add(p1);
+
+                dataTable = idataAccess.GetDataTable(sql, PList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dataTable;
+        }
+
+        private DataTable GetProductDB(string prodId)
+        {
+            DataTable dataTable = null;
+            try
+            {
+                string sql = "select * from products where ProductId=@prodId";
+                List<DbParameter> PList = new List<DbParameter>();
+                DbParameter p1 = new SqlParameter("@prodId", SqlDbType.VarChar, 50);
+                p1.Value = prodId;
                 PList.Add(p1);
 
                 dataTable = idataAccess.GetDataTable(sql, PList);
