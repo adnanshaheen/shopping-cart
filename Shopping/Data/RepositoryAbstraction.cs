@@ -7,7 +7,7 @@ using Shopping.Models;
 
 namespace Shopping.Data
 {
-    public class RepositoryAbstraction : IAuthenticate, IRepositoryShop
+    public class RepositoryAbstraction
     {
         private IAuthenticate iAuth = null;
         private IRepositoryShop iRepositoryShop = null;
