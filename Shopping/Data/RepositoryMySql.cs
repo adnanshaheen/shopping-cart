@@ -9,16 +9,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Shopping.Models;
+using Shopping.Cache;
 
 namespace Shopping.Data
 {
     public class RepositoryMySql : IAuthenticate, IRepositoryShop
     {
         private IDataAccess idataAccess = null;
+        private CacheAbstraction cache = null;
 
         public RepositoryMySql()
         {
             idataAccess = GenericFactory<DataAccessMySql, IDataAccess>.CreateInstance();
+            cache = new CacheAbstraction();
         }
 
         #region IAuthenticate Members
