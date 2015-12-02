@@ -163,11 +163,13 @@ namespace Shopping.Data
             List<ProductModel> TList = null;
             try
             {
-                // TODO: Add this to cache
+                string key = String.Format("Products_{0}", catID);
+                TList = cache.Retrieve<List<ProductModel>>(key);
                 if (TList == null)
                 {
                     DataTable dataTable = GetProductsDB(catID);
                     TList = RepositoryHelper.ConvertToList<ProductModel>(dataTable);
+                    cache.Insert(key, TList);
                 }
             }
             catch (Exception)
@@ -183,7 +185,8 @@ namespace Shopping.Data
             List<ProductModel> TList = null;
             try
             {
-                // TODO: Add this to cache
+                string key = String.Format("Product_{0}", prodId);
+                product = cache.Retrieve<ProductModel>(key);
                 if (product == null)
                 {
                     DataTable dataTable = GetProductDB(prodId);
@@ -191,6 +194,7 @@ namespace Shopping.Data
 
                     // We should have only one item in the list
                     product = TList.First<ProductModel>();
+                    cache.Insert(key, product);
                 }
             }
             catch (Exception)
