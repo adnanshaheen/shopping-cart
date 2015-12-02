@@ -6,9 +6,21 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+<style>
+    .singleTextBox {
+        width: 3em
+    }
+</style>
 @using (Html.BeginForm())
 {
     <table style="width:90%">
+        <tr>
+            <td colspan="5">
+                <hr style="border-color:#0000FF; border-width:3px" />
+            </td>
+        </tr>
+    </table>
+    <table>
         <tr>
             <th>
                 @Html.DisplayNameFor(m => m.ProductID)
@@ -26,25 +38,69 @@
                 Total
             </th>
         </tr>
+        @{ decimal Total = 0; }
         @foreach (CartModel cartItem in Model)
         {
-            <tr class="tr">
-                <td class="td">
+            <tr>
+                <td align="center">
                     @cartItem.ProductID
                 </td>
-                <td class="td">
+                <td align="center">
                     @cartItem.ProductName
                 </td>
-                <td class="td">
-                    @cartItem.ProductQuantity
+                <td align="center">
+                    @Html.TextBox(cartItem.ProductQuantity.ToString(), cartItem.ProductQuantity, new { @class = "singleTextBox" })
                 </td>
-                <td>
-                    @cartItem.ProductPrice
+                <td align="center">
+                    $@cartItem.ProductPrice
                 </td>
-                <td>
-                    @cartItem.ProductPrice * @cartItem.ProductQuantity
+                <td align="center">
+                    $@(cartItem.ProductPrice * cartItem.ProductQuantity)
+                    @{ Total += cartItem.ProductPrice * cartItem.ProductQuantity; }
                 </td>
             </tr>
         }
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+            <td>
+                Grand Total
+            </td>
+            <td>
+                $@Total
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td align="right">
+                <input type="button" value="Clear All" id="btnClear" />
+            </td>
+            <td align="center">
+                <input type="button" value="Update Cart" id="btnUpdate" />
+            </td>
+            <td>
+                <input type="button" value="Cancel Changes" id="btnCancel" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <text style="color:#006600">
+                    To remove an individual item, set the quantity to zero)
+                </text>
+            </td>
+        </tr>
+    </table>
+    <table style="width:90%">
+        <tr>
+            <td colspan="5">
+                <hr style="border-color:#0000FF; border-width:3px" />
+            </td>
+        </tr>
     </table>
 }
