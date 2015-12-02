@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CartModel>
+@using Shopping.Models;
+
+@{
+    ViewBag.Title = "ViewCart";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <table style="width:90%">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.ProductID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.ProductQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.ProductPrice)
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+        @foreach (CartModel cartItem in Model)
+        {
+            <tr class="tr">
+                <td class="td">
+                    @cartItem.ProductID
+                </td>
+                <td class="td">
+                    @cartItem.ProductName
+                </td>
+                <td class="td">
+                    @cartItem.ProductQuantity
+                </td>
+                <td>
+                    @cartItem.ProductPrice
+                </td>
+                <td>
+                    @cartItem.ProductPrice * @cartItem.ProductQuantity
+                </td>
+            </tr>
+        }
+    </table>
+}

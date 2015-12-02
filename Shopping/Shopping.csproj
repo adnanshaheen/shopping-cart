@@ -176,6 +176,7 @@
     <Compile Include="Cache\HttpContextCacheAdapter.cs" />
     <Compile Include="Cache\IWebCache.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Data\DataAccessMySql.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Views\Auth\Registration.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Cart\ViewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
