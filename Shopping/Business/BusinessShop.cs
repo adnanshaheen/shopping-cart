@@ -10,39 +10,37 @@ namespace Shopping.Business
 {
     public class BusinessShop : IBusinessAuth, IBusinessShop
     {
-        private IAuthenticate iAuthData = null;
-        private IRepositoryShop iRepositoryShop = null;
+        private RepositoryAbstraction Repo = null;
 
         public BusinessShop()
         {
-            iAuthData = GenericFactory<RepositoryAbstraction, IAuthenticate>.CreateInstance();
-            iRepositoryShop = GenericFactory<RepositoryAbstraction, IRepositoryShop>.CreateInstance();
+            Repo = new RepositoryAbstraction();
         }
 
         #region IBusinessAuth members
         public string GetRolesForUser(string uname)
         {
-            return iAuthData.GetRolesForUser(uname);
+            return Repo.GetRolesForUser(uname);
         }
 
         public bool SignIn(string userName, string password, bool createPersistentCookie)
         {
-            return iAuthData.SignIn(userName, password, createPersistentCookie);
+            return Repo.SignIn(userName, password, createPersistentCookie);
         }
 
         public bool ChangePassword(string userName, string password, string newPassword)
         {
-            return iAuthData.ChangePassword(userName, password, newPassword);
+            return Repo.ChangePassword(userName, password, newPassword);
         }
 
         public void SignOut()
         {
-            iAuthData.SignOut();
+            Repo.SignOut();
         }
 
         public bool ValidateUser(string userName, string password)
         {
-            return iAuthData.ValidateUser(userName, password);
+            return Repo.ValidateUser(userName, password);
         }
         #endregion
 
@@ -50,13 +48,13 @@ namespace Shopping.Business
         public List<ProductModel> GetProducts(string catID)
         {
             List<ProductModel> TList = new List<ProductModel>();
-            TList = iRepositoryShop.GetProducts(catID);
+            TList = Repo.GetProducts(catID);
             return TList;
         }
 
         public ProductModel GetProduct(string prodId)
         {
-            return iRepositoryShop.GetProduct(prodId);
+            return Repo.GetProduct(prodId);
         }
         #endregion
     }
