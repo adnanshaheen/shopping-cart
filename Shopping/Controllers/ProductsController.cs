@@ -42,17 +42,20 @@ namespace Shopping.Controllers
 
         public ActionResult Details(string prodID)
         {
+            ProductCartModel ProductCart = new ProductCartModel();
             ProductModel product = null;
             try
             {
                 if (!string.IsNullOrEmpty(prodID))
                     product = iBusinessShop.GetProduct(prodID);
+
+                ProductCart.Product = product;
             }
             catch (Exception)
             {
                 throw;
             }
-            return View(product);
+            return View(ProductCart);
         }
     }
 }

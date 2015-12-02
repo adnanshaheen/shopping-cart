@@ -1,4 +1,4 @@
-﻿@model ProductModel
+﻿@model ProductCartModel
 
 @using Shopping.Models;
 
@@ -13,23 +13,23 @@
         <tr>
             <td></td>
             <td style="font-size:medium; font-weight:bold; color:purple">
-                @Html.ValueFor(m => m.ShortDesc)
+                @Html.ValueFor(m => m.Product.ShortDesc)
             </td>
             <td></td>
         </tr>
         <tr>
             <td></td>
             <td>
-                $@Html.ValueFor(m => m.Price)
+                $@Html.ValueFor(m => m.Product.Price)
             </td>
             <td></td>
         </tr>
         <tr>
             <td>
-                <img src=@Url.Content("~/res/images/" + @Model.Image) alt="@Model.Image" />
+                <img src=@Url.Content("~/res/images/" + @Model.Product.Image) alt="@Model.Product.Image" />
             </td>
             <td align="justify">
-                @Html.ValueFor(m => m.LongDesc)
+                @Html.ValueFor(m => m.Product.LongDesc)
             </td>
             <td></td>
         </tr>
@@ -38,23 +38,37 @@
                 <hr style="border-color:#0000FF; border-width:3px"/>
             </td>
         </tr>
-        @*<tr>
+    </table>
+    <table>
+        <tr>
             <td align="right">
-                @Html.DisplayNameFor(m => m.Quantity)
+                Please enter quantity
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Quantity)
+                @Html.TextBoxFor(m => m.Cart.ProductQuantity)
             </td>
             <td>
-                @Html.ValidationMessageFor(m => m.Quantity)
+                @Html.ValidationMessageFor(m => m.Cart.ProductQuantity)
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <input type="button" value="Add to Card" id="btnAddToCart" />
+                <input type="button" value="Add to Cart" id="btnAddToCart" style="width:144px" />
             </td>
+            <td id="lblAddToCart"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td>
+        </tr>
+        <tr>
             <td></td>
-        </tr>*@
+            <td>
+                <input type="button" value="View Cart" id="btnViewCart" style="width:144px" />
+            </td>
+            <td>
+                <input type="button" value="Continue Shopping" id="btnContShopping" style="width:144px" />
+            </td>
+        </tr>
     </table>
 }
