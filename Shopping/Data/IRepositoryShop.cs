@@ -8,5 +8,7 @@ namespace Shopping.Data
         List<ProductModel> GetProducts(string catID);
 
         ProductModel GetProduct(string prodId);
+
+        bool AddProduct(ProductModel product);
     }
 }

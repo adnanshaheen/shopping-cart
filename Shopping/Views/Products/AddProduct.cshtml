@@ -16,7 +16,7 @@
     }
 </style>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <table align="left" style="width:90%; border-collapse:collapse; white-space:nowrap">
         <tr>
@@ -89,7 +89,7 @@
         <tr>
             <td></td>
             <td>
-                <input type="file" id="btnFileUpload" />
+                @Html.TextBoxFor(m => m.Image, new { type = "file" })
             </td>
             <td></td>
         </tr>

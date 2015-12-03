@@ -56,6 +56,11 @@ namespace Shopping.Business
         {
             return Repo.GetProduct(prodId);
         }
+
+        public bool AddProduct(ProductModel product)
+        {
+            return Repo.AddProduct(product);
+        }
         #endregion
     }
 }

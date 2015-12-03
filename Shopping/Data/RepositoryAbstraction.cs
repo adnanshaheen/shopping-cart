@@ -55,6 +55,11 @@ namespace Shopping.Data
         {
             return iRepositoryShop.GetProduct(prodId);
         }
+
+        public bool AddProduct(ProductModel product)
+        {
+            return iRepositoryShop.AddProduct(product);
+        }
         #endregion
     }
 }

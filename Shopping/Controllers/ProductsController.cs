@@ -63,5 +63,13 @@ namespace Shopping.Controllers
             ProductModel model = new ProductModel();
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult AddProduct(ProductModel model)
+        {
+            if (ModelState.IsValid)
+                iBusinessShop.AddProduct(model);
+            return View(model);
+        }
     }
 }
