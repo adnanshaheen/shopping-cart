@@ -25,8 +25,8 @@ namespace Shopping.Models
         public string LongDesc { get; set; }
 
         [Display(Name ="Product Picture")]
-        //public string Image { get; set; }
-        public HttpPostedFileBase Image { get; set; }
+        public string Image { get; set; }
+        public HttpPostedFileBase ImageFile { get; set; }
 
         [Required(ErrorMessage ="Price is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid value")]
@@ -43,7 +43,7 @@ namespace Shopping.Models
             CatagoryID = (int)dataRow["CatID"];
             ShortDesc = (string)dataRow["ProductSDesc"];
             LongDesc = (string)dataRow["ProductLDesc"];
-            //Image = (string)dataRow["ProductImage"];
+            Image = (string)dataRow["ProductImage"];
             Price = (decimal)dataRow["Price"];
             Inventory = (int)dataRow["Inventory"];
         }

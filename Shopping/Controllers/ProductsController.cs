@@ -43,6 +43,7 @@ namespace Shopping.Controllers
         public ActionResult Details(string prodID)
         {
             ProductCartModel ProductCart = new ProductCartModel();
+            CartModel cart = new CartModel();
             ProductModel product = null;
             try
             {
@@ -50,12 +51,38 @@ namespace Shopping.Controllers
                     product = iBusinessShop.GetProduct(prodID);
 
                 ProductCart.Product = product;
+                ProductCart.Cart = cart;
             }
             catch (Exception)
             {
                 throw;
             }
             return View(ProductCart);
+        }
+
+        [HttpPost]
+        public ActionResult Details(ProductCartModel model)
+        {
+            try
+            {
+                if (Request.Form["btnContShopping"] != null)
+                {
+                    return RedirectToAction("Index", "Products", new { catID = model.Product.CatagoryID });
+                }
+                else if (Request.Form["btnViewCart"] != null)
+                {
+                    return RedirectToAction("ViewCart", "Cart");
+                }
+                else if (Request.Form["btnAddToCart"] != null)
+                {
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View(model);
         }
 
         public ActionResult AddProduct()

@@ -7,6 +7,12 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+<style>
+    .singleTextBox {
+        width: 4em;
+    }
+</style>
+@*Use HiddenFor to have values of the model*@
 @using (Html.BeginForm())
 {
     <table style="width:90%">
@@ -45,7 +51,7 @@
                 Please enter quantity
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Cart.ProductQuantity)
+                @Html.TextBoxFor(m => m.Cart.ProductQuantity, new { @class = "singleTextBox" })
             </td>
             <td>
                 @Html.ValidationMessageFor(m => m.Cart.ProductQuantity)
@@ -54,7 +60,11 @@
         <tr>
             <td></td>
             <td>
-                <input type="button" value="Add to Cart" id="btnAddToCart" style="width:144px" />
+                <input type="submit"
+                       value="Add to Cart"
+                       id="btnAddToCart"
+                       name="btnAddToCart"
+                       style="width:144px" />
             </td>
             <td id="lblAddToCart"></td>
         </tr>
@@ -64,10 +74,18 @@
         <tr>
             <td></td>
             <td>
-                <input type="button" value="View Cart" id="btnViewCart" style="width:144px" />
+                <input type="submit"
+                       value="View Cart"
+                       id="btnViewCart"
+                       name="btnViewCart"
+                       style="width:144px" />
             </td>
             <td>
-                <input type="button" value="Continue Shopping" id="btnContShopping" style="width:144px" />
+                &nbsp;<input type="submit"
+                             value="Continue Shopping"
+                             id="btnContShopping"
+                             name="btnContShopping"
+                             style="width:144px" />
             </td>
         </tr>
     </table>

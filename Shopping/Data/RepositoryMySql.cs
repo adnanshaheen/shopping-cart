@@ -213,11 +213,11 @@ namespace Shopping.Data
             Byte[] ImageData = null;
             try
             {
-                stream = product.Image.InputStream;
-                fileInfo = new FileInfo(Path.GetFullPath(product.Image.FileName));
-                ImageData = new Byte[product.Image.ContentLength];
+                stream = product.ImageFile.InputStream;
+                fileInfo = new FileInfo(Path.GetFullPath(product.ImageFile.FileName));
+                ImageData = new Byte[product.ImageFile.ContentLength];
 
-                stream.Read(ImageData, 0, product.Image.ContentLength);
+                stream.Read(ImageData, 0, product.ImageFile.ContentLength);
 
                 string sql = "insert into Images(Name, Type, Image) values(@Name, @Type, @ImageData)";
                 List<DbParameter> PList = new List<DbParameter>();
