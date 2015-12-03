@@ -57,5 +57,11 @@ namespace Shopping.Controllers
             }
             return View(ProductCart);
         }
+
+        public ActionResult AddProduct()
+        {
+            ProductModel model = new ProductModel();
+            return View(model);
+        }
     }
 }

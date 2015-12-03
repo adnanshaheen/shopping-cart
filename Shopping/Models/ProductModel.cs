@@ -12,17 +12,23 @@ namespace Shopping.Models
     {
         public int ProductID { get; set; }
 
+        [Display(Name ="Catagory")]
         public int CatagoryID { get; set; }
 
         [Display(Name ="Product Description")]
+        [Required(ErrorMessage ="Short description is required")]
+        [StringLength(50, ErrorMessage = "Length can't exceed 50 charectars")]
         public string ShortDesc { get; set; }
 
         [Display(Name ="Details")]
+        [Required(ErrorMessage ="Long description is required")]
         public string LongDesc { get; set; }
 
         [Display(Name ="Product Picture")]
         public string Image { get; set; }
 
+        [Required(ErrorMessage ="Price is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid value")]
         public decimal Price { get; set; }
 
         public int Inventory { get; set; }

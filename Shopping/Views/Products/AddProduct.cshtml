@@ -1,0 +1,117 @@
+﻿@model Shopping.Models.ProductModel
+
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<style>
+    .singleTextBox {
+        width: 4em;
+    }
+    .myTextBox{
+        max-width:100%;
+        height:104px;
+        width:500px
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <table align="left" style="width:90%; border-collapse:collapse; white-space:nowrap">
+        <tr>
+            <td align="center" colspan="3"
+                style="color:#000099; background-color:#FFFFCC; font-size: large; font-weight:bold">
+                New Products Specs - By Admins Only
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.ShortDesc)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.ShortDesc)
+            </td>
+            <td width="50%">
+                @Html.ValidationMessageFor(m => m.ShortDesc)
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.CatagoryID)
+            </td>
+            <td>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Electronics",
+                        Value = "10"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Kitchen",
+                        Value = "20",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Luggage",
+                        Value = "30"
+                    });
+                }
+                @Html.DropDownListFor(m => m.CatagoryID, listItems)
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.LongDesc)
+            </td>
+            <td>
+                @Html.TextAreaFor(m => m.LongDesc, new { @class = "myTextBox" })
+            </td>
+            <td>
+                @Html.ValidationMessageFor(m => m.LongDesc)
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Price) ($)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Price, new { @class = "singleTextBox" })
+            </td>
+            <td>
+                @Html.ValidationMessageFor(m => m.Price)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="file" id="btnFileUpload" />
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Inventory)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Inventory, new { @class = "singleTextBox" })
+            </td>
+            <td>
+                @Html.ValidationMessageFor(m => m.Inventory)
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <input type="reset" value="Reset" />
+            </td>
+            <td>
+                <input type="submit" value="Add Product" />
+            </td>
+            <td></td>
+        </tr>
+    </table>
+}
