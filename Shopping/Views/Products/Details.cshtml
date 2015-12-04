@@ -12,13 +12,18 @@
         width: 4em;
     }
 </style>
-@*Use HiddenFor to have values of the model*@
+
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(m => m.Product.ProductID)
+    @Html.HiddenFor(m => m.Product.CatagoryID)
+    @Html.HiddenFor(m => m.Product.Inventory)
+
     <table style="width:90%">
         <tr>
             <td></td>
             <td style="font-size:medium; font-weight:bold; color:purple">
+                @Html.HiddenFor(m => m.Product.ShortDesc)
                 @Html.ValueFor(m => m.Product.ShortDesc)
             </td>
             <td></td>
@@ -26,6 +31,7 @@
         <tr>
             <td></td>
             <td>
+                @Html.HiddenFor(m => m.Product.Price)
                 $@Html.ValueFor(m => m.Product.Price)
             </td>
             <td></td>
@@ -35,6 +41,7 @@
                 <img src=@Url.Content("~/res/images/" + @Model.Product.Image) alt="@Model.Product.Image" />
             </td>
             <td align="justify">
+                @Html.HiddenFor(m => m.Product.LongDesc)
                 @Html.ValueFor(m => m.Product.LongDesc)
             </td>
             <td></td>
@@ -51,6 +58,7 @@
                 Please enter quantity
             </td>
             <td>
+                @Html.HiddenFor(m => m.Cart.ProductQuantity)
                 @Html.TextBoxFor(m => m.Cart.ProductQuantity, new { @class = "singleTextBox" })
             </td>
             <td>
