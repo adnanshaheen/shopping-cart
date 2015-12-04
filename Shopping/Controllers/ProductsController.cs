@@ -75,7 +75,12 @@ namespace Shopping.Controllers
                 }
                 else if (Request.Form["btnAddToCart"] != null)
                 {
-
+                    HttpCookie cartCookie = new HttpCookie("cart");
+                    cartCookie["cart"]["ProductID"] = model.Cart.ProductID.ToString();
+                    cartCookie["cart"]["ProductName"] = model.Cart.ProductName;
+                    cartCookie["cart"]["ProductQuantity"] = model.Cart.ProductQuantity.ToString();
+                    cartCookie["cart"]["ProductPrice"] = model.Cart.ProductPrice.ToString();
+                    Response.SetCookie(cartCookie);
                 }
             }
             catch (Exception)
