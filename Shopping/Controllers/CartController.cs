@@ -28,5 +28,23 @@ namespace Shopping.Controllers
 
             return View(cartCookieList);
         }
+
+        [HttpPost]
+        public ActionResult ViewCart(List<CartModel> model)
+        {
+            if (Request.Form["btnClear"] != null)
+            {
+
+            }
+            else if (Request.Form["btnUpdate"] != null)
+            {
+
+            }
+            else if (Request.Form["btnCancel"] != null)
+            {
+
+            }
+            return View();
+        }
     }
 }
