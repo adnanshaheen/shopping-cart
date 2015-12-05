@@ -15,6 +15,7 @@
 
 @using (Html.BeginForm())
 {
+    @*Check for null Model, or Model.Product or Model.Cart*@
     @Html.HiddenFor(m => m.Product.ProductID)
     @Html.HiddenFor(m => m.Product.CatagoryID)
     @Html.HiddenFor(m => m.Product.Inventory)

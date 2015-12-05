@@ -197,6 +197,7 @@
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CookieHelper.cs" />
     <Compile Include="Utilities\GenericFactory.cs" />
     <Compile Include="Utilities\IEntity.cs" />
     <Compile Include="Utilities\RepositoryHelper.cs" />

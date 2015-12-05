@@ -19,7 +19,7 @@ namespace Shopping.Models
 
         [Display(Name = "Quantity")]
         [Required(ErrorMessage ="Please enter a quantity")]
-        [Range(1, int.MaxValue, ErrorMessage ="Please enter a valid value")]
+        [Range(1, int.MaxValue, ErrorMessage ="Please enter a valid value")]    // range isn't working
         public int ProductQuantity { get; set; }
     }
 }
