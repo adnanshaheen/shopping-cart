@@ -51,6 +51,7 @@ namespace Shopping.Controllers
                     product = iBusinessShop.GetProduct(prodID);
 
                 ProductCart.Product = product;
+                cart.ProductQuantity = 1;
                 ProductCart.Cart = cart;
             }
             catch (Exception)
@@ -75,16 +76,21 @@ namespace Shopping.Controllers
                 }
                 else if (Request.Form["btnAddToCart"] != null)
                 {
-                    model.Cart.ProductID = model.Product.ProductID;
-                    model.Cart.ProductName = model.Product.ShortDesc;
-                    model.Cart.ProductPrice = model.Product.Price;
-                    CookieHelper<CartModel>.SetValueToCookie("cart", model.Cart, DateTime.MaxValue);
-                    HttpCookie cartCookie = new HttpCookie("cart1");
-                    //cartCookie["cart"]["ProductID"] = model.Cart.ProductID.ToString();
-                    //cartCookie["cart"]["ProductName"] = model.Cart.ProductName;
-                    //cartCookie["cart"]["ProductQuantity"] = model.Cart.ProductQuantity.ToString();
-                    //cartCookie["cart"]["ProductPrice"] = model.Cart.ProductPrice.ToString();
-                    Response.SetCookie(cartCookie);
+                    // We can retrieve the product information from database
+                    List<CartModel> cartCookieList = new List<CartModel>();
+                    CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
+
+                    var item = cartCookieList.Find(cart => cart.ProductID == model.Product.ProductID);
+                    if (item != null)
+                    {
+                        ++item.ProductQuantity;
+                    }
+                    else
+                    {
+                        model.Cart.ProductID = model.Product.ProductID;
+                        cartCookieList.Add(model.Cart);
+                    }
+                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", cartCookieList, DateTime.MaxValue);
                 }
             }
             catch (Exception)
