@@ -207,64 +207,70 @@ namespace Shopping.Data
 
         public bool AddProduct(ProductModel product)
         {
+            // FIXME: Add transaction
             bool bRes = false;
             Stream stream = null;
             FileInfo fileInfo = null;
             Byte[] ImageData = null;
             try
             {
-                stream = product.ImageFile.InputStream;
-                fileInfo = new FileInfo(Path.GetFullPath(product.ImageFile.FileName));
-                ImageData = new Byte[product.ImageFile.ContentLength];
+                string sql1 = "insert into Products (CatID, ProductSDesc, ProductLDesc,"
+                    + "Price, Inventory) values("
+                    + "@catID, @ProductSDesc, @ProductLDesc, @Price, @Inventory)";
+                List<DbParameter> PList1 = new List<DbParameter>();
+                DbParameter p1a = new MySqlParameter("@catID", MySqlDbType.Int32);
+                p1a.Value = product.CatagoryID;
+                PList1.Add(p1a);
 
-                stream.Read(ImageData, 0, product.ImageFile.ContentLength);
+                DbParameter p2a = new MySqlParameter("@ProductSDesc", MySqlDbType.VarChar, 50);
+                p2a.Value = product.ShortDesc;
+                PList1.Add(p2a);
 
-                string sql = "insert into Images(Name, Type, Image) values(@Name, @Type, @ImageData)";
-                List<DbParameter> PList = new List<DbParameter>();
-                DbParameter p1 = new MySqlParameter("@Name", MySqlDbType.VarChar, 50);
-                p1.Value = fileInfo.Name;
-                PList.Add(p1);
+                DbParameter p3a = new MySqlParameter("@ProductLDesc", MySqlDbType.Text);
+                p3a.Value = product.LongDesc;
+                PList1.Add(p3a);
 
-                DbParameter p2 = new MySqlParameter("@Type", MySqlDbType.VarChar, 10);
-                p2.Value = fileInfo.Extension;
-                PList.Add(p2);
+                DbParameter p4a = new MySqlParameter("@Price", MySqlDbType.Decimal);
+                p4a.Value = product.Price;
+                PList1.Add(p4a);
 
-                DbParameter p3 = new MySqlParameter("@ImageData", MySqlDbType.VarBinary);
-                p3.Value = ImageData;
-                PList.Add(p3);
+                DbParameter p5a = new MySqlParameter("@Inventory", MySqlDbType.Int32);
+                p5a.Value = product.Inventory;
+                PList1.Add(p5a);
 
-                bRes = idataAccess.InsOrUpdOrDel(sql, PList) > 0 ? true : false;
+                bRes = idataAccess.InsOrUpdOrDel(sql1, PList1) > 0 ? true : false;
                 if (bRes)
                 {
-                    string sql1 = "insert into Products (CatID, ProductSDesc, ProductLDesc,"
-                        + "ProductImage, Price, Inventory) values("
-                        + "@catID, @ProductSDesc, @ProductLDesc, @ProductImage, @Price, @Inventory)";
-                    List<DbParameter> PList1 = new List<DbParameter>();
-                    DbParameter p1a = new MySqlParameter("@catID", MySqlDbType.Int32);
-                    p1a.Value = product.CatagoryID;
-                    PList1.Add(p1a);
+                    string sql2 = "select top 1 ProductId from Products order by ProductId desc";
+                    List<DbParameter> PList2 = new List<DbParameter>();
+                    object obj = idataAccess.GetSingleAnswer(sql2, PList2);
+                    string ProdId = obj != null ? obj.ToString() : "";
 
-                    DbParameter p2a = new MySqlParameter("@ProductSDesc", MySqlDbType.VarChar, 50);
-                    p2a.Value = product.ShortDesc;
-                    PList1.Add(p2a);
+                    stream = product.ImageFile.InputStream;
+                    fileInfo = new FileInfo(Path.GetFullPath(product.ImageFile.FileName));
+                    ImageData = new Byte[product.ImageFile.ContentLength];
 
-                    DbParameter p3a = new MySqlParameter("@ProductLDesc", MySqlDbType.Text);
-                    p3a.Value = product.LongDesc;
-                    PList1.Add(p3a);
+                    stream.Read(ImageData, 0, product.ImageFile.ContentLength);
 
-                    DbParameter p4a = new MySqlParameter("@ProductImage", MySqlDbType.Int32);
-                    p4a.Value = 5;  // TODO???
-                    PList1.Add(p4a);
+                    string sql3 = "insert into Images(Name, Type, Image, ProductId) values(@Name, @Type, @ImageData, @ProductId)";
+                    List<DbParameter> PList = new List<DbParameter>();
+                    DbParameter p1b = new MySqlParameter("@Name", MySqlDbType.VarChar, 50);
+                    p1b.Value = fileInfo.Name;
+                    PList.Add(p1b);
 
-                    DbParameter p5a = new MySqlParameter("@Price", MySqlDbType.Decimal);
-                    p5a.Value = product.Price;
-                    PList1.Add(p5a);
+                    DbParameter p2b = new MySqlParameter("@Type", MySqlDbType.VarChar, 10);
+                    p2b.Value = fileInfo.Extension;
+                    PList.Add(p2b);
 
-                    DbParameter p6a = new MySqlParameter("@Inventory", SqlDbType.Int);
-                    p6a.Value = product.Inventory;
-                    PList1.Add(p6a);
+                    DbParameter p3b = new MySqlParameter("@ImageData", MySqlDbType.VarBinary);
+                    p3b.Value = ImageData;
+                    PList.Add(p3b);
 
-                    idataAccess.InsOrUpdOrDel(sql1, PList1);
+                    DbParameter p4b = new MySqlParameter("@ProductId", MySqlDbType.Int32);
+                    p4b.Value = ProdId;
+                    PList.Add(p4b);
+
+                    bRes = idataAccess.InsOrUpdOrDel(sql3, PList) > 0 ? true : false;
                 }
             }
             catch (Exception)
