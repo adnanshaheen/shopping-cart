@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CartModel>
+﻿@*@model IEnumerable<CartModel>*@
+@model CartListModel
 @using Shopping.Models;
 
 @{
@@ -23,40 +24,41 @@
     <table>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.ProductID)
+                @Html.DisplayNameFor(m => m.CartList.First().ProductID)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.ProductName)
+                @Html.DisplayNameFor(m => m.CartList.First().ProductName)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.ProductQuantity)
+                @Html.DisplayNameFor(m => m.CartList.First().ProductQuantity)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.ProductPrice)
+                @Html.DisplayNameFor(m => m.CartList.First().ProductPrice)
             </th>
             <th>
                 Total
             </th>
         </tr>
         @{ decimal Total = 0; }
-        @foreach (CartModel cartItem in Model)
+        @for (int Index = 0; Index < Model.CartList.Count(); ++ Index)
         {
             <tr>
                 <td align="center">
-                    @cartItem.ProductID
+                    @Html.HiddenFor(m => m.CartList[Index].ProductID)
+                    @Model.CartList[Index].ProductID
                 </td>
                 <td align="center">
-                    @cartItem.ProductName
+                    @Model.CartList[Index].ProductName
                 </td>
                 <td align="center">
-                    @Html.TextBox(cartItem.ProductQuantity.ToString(), cartItem.ProductQuantity, new { @class = "singleTextBox" })
+                    @Html.TextBoxFor(m => m.CartList[Index].ProductQuantity)
                 </td>
                 <td align="center">
-                    $@cartItem.ProductPrice
+                    $@Model.CartList[Index].ProductPrice
                 </td>
                 <td align="center">
-                    $@(cartItem.ProductPrice * cartItem.ProductQuantity)
-                    @{ Total += cartItem.ProductPrice * cartItem.ProductQuantity; }
+                    $@(Model.CartList[Index].ProductPrice * Model.CartList[Index].ProductQuantity)
+                    @{ Total += Model.CartList[Index].ProductPrice * Model.CartList[Index].ProductQuantity; }
                 </td>
             </tr>
         }

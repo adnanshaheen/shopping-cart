@@ -23,12 +23,15 @@ namespace Shopping.Controllers
         // GET: Cart
         public ActionResult ViewCart()
         {
+            CartListModel cartList = new CartListModel();
             List<CartModel> cartCookieList = null;
             try
             {
                 cartCookieList = new List<CartModel>();
                 CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
-                foreach (var item in cartCookieList)
+                cartList.CartList = cartCookieList;
+                //foreach (var item in cartCookieList)
+                foreach (var item in cartList.CartList)
                 {
                     ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
                     if (product != null)
@@ -43,40 +46,30 @@ namespace Shopping.Controllers
                 throw;
             }
 
-            return View(cartCookieList);
+            return View(cartList);
         }
 
         [HttpPost]
-        public ActionResult ViewCart(List<CartModel> model)
+        public ActionResult ViewCart(CartListModel model)
         {
-            // FIXME: model is empty
-            // either search for a way to return the whole list back from view
-            // or make another model class and have List<CartMode> as it's object
+            List<CartModel> cartCookieList = null;
             if (Request.Form["btnClear"] != null)
             {
-                if (model.Any())
+                if (model.CartList != null && model.CartList.Any())
                 {
-                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model, DateTime.Now.AddDays(-1d));
-                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model, DateTime.MaxValue);
-                    model.Clear();
+                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model.CartList, DateTime.Now.AddDays(-1d));
+                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model.CartList, DateTime.MaxValue);
+                    model.CartList.Clear();
                 }
             }
             else if (Request.Form["btnUpdate"] != null)
             {
-                if (model.Any())
+                if (model.CartList != null && model.CartList.Any())
                 {
-                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model, DateTime.MaxValue);
-                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model, DateTime.MaxValue);
-                }
-            }
-            else if (Request.Form["btnCancel"] != null)
-            {
-                CookieHelper<List<CartModel>>.GetValueFromCookie("oldcart", ref model);
-                if (model.Any())
-                {
-                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model, DateTime.Now.AddDays(-1d));
-                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model, DateTime.MaxValue);
-                    foreach (var item in model)
+                    CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
+                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", cartCookieList, DateTime.MaxValue);
+                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model.CartList, DateTime.MaxValue);
+                    foreach (var item in model.CartList)
                     {
                         ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
                         if (product != null)
@@ -87,6 +80,28 @@ namespace Shopping.Controllers
                     }
                 }
             }
+            else if (Request.Form["btnCancel"] != null)
+            {
+                if (model.CartList != null && model.CartList.Any())
+                {
+                    CookieHelper<List<CartModel>>.GetValueFromCookie("oldcart", ref cartCookieList);
+                    CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model.CartList, DateTime.Now.AddDays(-1d));
+                    model.CartList = cartCookieList;
+                    CookieHelper<List<CartModel>>.SetValueToCookie("cart", model.CartList, DateTime.MaxValue);
+                    foreach (var item in model.CartList)
+                    {
+                        ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
+                        if (product != null)
+                        {
+                            item.ProductName = product.ShortDesc;
+                            item.ProductPrice = product.Price;
+                        }
+                    }
+                }
+            }
+            if (model.CartList == null)
+                model.CartList = new List<CartModel>();
+
             return View(model);
         }
     }
