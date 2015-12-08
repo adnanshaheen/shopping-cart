@@ -36,6 +36,8 @@ namespace Shopping.Models
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid value")]
         public int Inventory { get; set; }
 
+        public string Status { get; set; }
+
         #region IEntity Members
         public void SetFeilds(DataRow dataRow)
         {

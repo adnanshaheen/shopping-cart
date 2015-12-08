@@ -74,7 +74,9 @@
                        name="btnAddToCart"
                        style="width:144px" />
             </td>
-            <td id="lblAddToCart"></td>
+            <td id="lblAddToCart">
+                @Html.ValueFor(m => m.Product.Status)
+            </td>
         </tr>
         <tr>
             <td colspan="3"></td>

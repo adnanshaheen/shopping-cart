@@ -81,16 +81,21 @@ namespace Shopping.Controllers
                     CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
 
                     var item = cartCookieList.Find(cart => cart.ProductID == model.Product.ProductID);
+                    int ProductQuantity = 0;
                     if (item != null)
                     {
-                        ++item.ProductQuantity;
+                        item.ProductQuantity += model.Cart.ProductQuantity;
+                        ProductQuantity = item.ProductQuantity;
                     }
                     else
                     {
                         model.Cart.ProductID = model.Product.ProductID;
                         cartCookieList.Add(model.Cart);
+                        ProductQuantity = model.Cart.ProductQuantity;
                     }
                     CookieHelper<List<CartModel>>.SetValueToCookie("cart", cartCookieList, DateTime.MaxValue);
+                    model.Product.Status = ProductQuantity.ToString() + " items of " +
+                        model.Product.ShortDesc + " added to your cart.";
                 }
             }
             catch (Exception)
