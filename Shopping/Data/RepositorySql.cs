@@ -310,12 +310,19 @@ namespace Shopping.Data
             DataTable dataTable = null;
             try
             {
-                string sql = "select * from  products where catid=@catID";
+                string sql = "";
                 List<DbParameter> PList = new List<DbParameter>();
-                DbParameter p1 = new SqlParameter("@catID", SqlDbType.VarChar, 50);
-                p1.Value = catID;
-                PList.Add(p1);
-
+                if (String.IsNullOrEmpty(catID))
+                {
+                    sql = "select * from products";
+                }
+                else
+                {
+                    sql = "select * from  products where catid=@catID";
+                    DbParameter p1 = new SqlParameter("@catID", SqlDbType.VarChar, 50);
+                    p1.Value = catID;
+                    PList.Add(p1);
+                }
                 dataTable = idataAccess.GetDataTable(sql, PList);
             }
             catch (Exception)

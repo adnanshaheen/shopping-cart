@@ -105,9 +105,20 @@ namespace Shopping.Controllers
             return View(model);
         }
 
-        public ActionResult AddProduct()
+        public ActionResult AddProduct(int? ProdID)
         {
-            ProductModel model = new ProductModel();
+            ProductModel model = null;
+            try
+            {
+                if (ProdID != null)
+                    model = iBusinessShop.GetProduct(ProdID.ToString());
+                else
+                    model = new ProductModel();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View(model);
         }
 
@@ -122,6 +133,23 @@ namespace Shopping.Controllers
                     model.Status = "Couldn't add product";
             }
             return View(model);
+        }
+
+        public ActionResult ViewProducts()
+        {
+            List<ProductModel> TList = null;
+            try
+            {
+                if (iBusinessShop != null)
+                {
+                    TList = iBusinessShop.GetProducts("");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View(TList);
         }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProductModel>
+@using Shopping.Models;
+@{
+    ViewBag.Title = "ViewProducts";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <table style="border:thin solid;border-collapse:collapse;">
+        <tr style="white-space:nowrap">
+            <th class="th">
+                Edit Product
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.Image.ImageFile)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.ShortDesc)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.LongDesc)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.Price)
+            </th>
+            <th class="th">
+                @Html.DisplayNameFor(m => m.Inventory)
+            </th>
+        </tr>
+
+        @foreach (ProductModel item in Model)
+        {
+            <tr class="tr">
+                <td class="td">
+                    @Html.ActionLink("Edit", "AddProduct", "Products", new { ProdID = @item.ProductID }, null)
+                </td>
+                <td class="td">
+                    @{
+                        if (item.Image != null)
+                        {
+                            string imageBase64 = Convert.ToBase64String(item.Image.ImageData);
+                            //Add type to ProductModel class
+                            string imageSrc = string.Format("data:/image/jpeg;base64,{0}", imageBase64);
+                            <img src="@imageSrc" alt="@item.ShortDesc" />
+                        }
+                    }
+                </td>
+                <td class="td">
+                    @item.ShortDesc
+                </td>
+                <td class="td" style="text-align:justify">
+                    @item.LongDesc
+                </td>
+                <td class="td">
+                    $@item.Price
+                </td>
+                <td class="td">
+                    @item.Inventory
+                </td>
+            </tr>
+            }
+    </table>
+}
