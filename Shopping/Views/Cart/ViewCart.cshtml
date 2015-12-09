@@ -23,9 +23,6 @@
     <table>
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.CartList.First().ProductID)
-            </th>
-            <th>
                 @Html.DisplayNameFor(m => m.CartList.First().ProductName)
             </th>
             <th>
@@ -42,10 +39,7 @@
         @for (int Index = 0; Index < Model.CartList.Count(); ++ Index)
         {
             <tr>
-                <td align="center">
-                    @Html.HiddenFor(m => m.CartList[Index].ProductID)
-                    @Model.CartList[Index].ProductID
-                </td>
+                @Html.HiddenFor(m => m.CartList[Index].ProductID)
                 <td align="center">
                     @Model.CartList[Index].ProductName
                 </td>
@@ -62,10 +56,10 @@
             </tr>
         }
         <tr>
-            <td colspan="5"></td>
+            <td colspan="4"></td>
         </tr>
         <tr>
-            <td colspan="3"></td>
+            <td colspan="2"></td>
             <td>
                 Grand Total
             </td>
