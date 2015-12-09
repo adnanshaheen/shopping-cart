@@ -185,8 +185,8 @@ namespace Shopping.Data
             bool bRes = false;
             try
             {
-                string sql = "update CustomerInfo set Address=@address, ZipCode=@zipCode, " +
-                    "City=@city, State=@state, CCNumber=@creditcard, CCExpiration=@expiration, CCType=@type"
+                string sql = "update CustomerInfos set Address=@address, ZipCode=@zipCode, " +
+                    "City=@city, State=@state, CCNumber=@creditcard, CCExpiration=@expiration, CCType=@type,"
                     + "Email=@email";
 
                 List<DbParameter> PList = new List<DbParameter>();
@@ -200,7 +200,7 @@ namespace Shopping.Data
                 PList.Add(p2);
 
                 DbParameter p3 = new MySqlParameter("@city", MySqlDbType.VarChar, 50);
-                p2.Value = Info.City;
+                p3.Value = Info.City;
                 PList.Add(p3);
 
                 DbParameter p4 = new MySqlParameter("@state", MySqlDbType.VarChar, 50);
