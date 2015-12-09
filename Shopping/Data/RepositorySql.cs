@@ -164,7 +164,6 @@ namespace Shopping.Data
             List<RegistrationModel> TList = null;
             try
             {
-                // add transaction
                 string key = String.Format("Customer_{0}", userName);
                 Customer = cache.Retrieve<RegistrationModel>(key);
                 if (Customer == null)
@@ -256,76 +255,101 @@ namespace Shopping.Data
 
         public bool AddProduct(ProductModel product)
         {
-            // FIXME: Add transaction
-            bool bRes = false;
+            bool bRes = true;
+            string ConnectionString = ConfigurationManager.ConnectionStrings["SQLDB"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(ConnectionString);
+            SqlTransaction Transaction = null;
+
             Stream stream = null;
             FileInfo fileInfo = null;
             Byte[] ImageData = null;
             try
             {
+                Connection.Open();
+                Transaction = Connection.BeginTransaction();
+
                 string sql1 = "insert into Products (CatID, ProductSDesc, ProductLDesc,"
                     + "Price, Inventory) values("
                     + "@catID, @ProductSDesc, @ProductLDesc, @Price, @Inventory)";
-                List<DbParameter> PList1 = new List<DbParameter>();
+
+                SqlCommand cmd1 = new SqlCommand(sql1, Connection);
+
                 DbParameter p1a = new SqlParameter("@catID", SqlDbType.Int);
                 p1a.Value = product.CatagoryID;
-                PList1.Add(p1a);
+                cmd1.Parameters.Add(p1a);
 
                 DbParameter p2a = new SqlParameter("@ProductSDesc", SqlDbType.VarChar, 50);
                 p2a.Value = product.ShortDesc;
-                PList1.Add(p2a);
+                cmd1.Parameters.Add(p2a);
 
                 DbParameter p3a = new SqlParameter("@ProductLDesc", SqlDbType.Text);
                 p3a.Value = product.LongDesc;
-                PList1.Add(p3a);
+                cmd1.Parameters.Add(p3a);
 
                 DbParameter p4a = new SqlParameter("@Price", SqlDbType.Money);
                 p4a.Value = product.Price;
-                PList1.Add(p4a);
+                cmd1.Parameters.Add(p4a);
 
                 DbParameter p5a = new SqlParameter("@Inventory", SqlDbType.Int);
                 p5a.Value = product.Inventory;
-                PList1.Add(p5a);
+                cmd1.Parameters.Add(p5a);
 
-                bRes = idataAccess.InsOrUpdOrDel(sql1, PList1) > 0 ? true : false;
-                if (bRes)
-                {
-                    string sql2 = "select top 1 ProductId from Products order by ProductId desc";
-                    List<DbParameter> PList2 = new List<DbParameter>();
-                    object obj = idataAccess.GetSingleAnswer(sql2, PList2);
-                    string ProdId = obj != null ? obj.ToString() : "";
+                int rows = cmd1.ExecuteNonQuery();
+                if (rows <= 0)
+                    throw new Exception("Couldn't insert product");
 
-                    stream = product.Image.ImageFile.InputStream;
-                    fileInfo = new FileInfo(Path.GetFullPath(product.Image.ImageFile.FileName));
-                    ImageData = new Byte[product.Image.ImageFile.ContentLength];
+                string sql2 = "select top 1 ProductId from Products order by ProductId desc";
+                List<DbParameter> PList2 = new List<DbParameter>();
+                object obj = idataAccess.GetSingleAnswer(sql2, PList2);
+                string ProdId = obj != null ? obj.ToString() : "";
 
-                    stream.Read(ImageData, 0, product.Image.ImageFile.ContentLength);
+                stream = product.Image.ImageFile.InputStream;
+                fileInfo = new FileInfo(Path.GetFullPath(product.Image.ImageFile.FileName));
+                ImageData = new Byte[product.Image.ImageFile.ContentLength];
 
-                    string sql3 = "insert into Images(Name, Type, Image, ProductId) values(@Name, @Type, @ImageData, @ProductId)";
-                    List<DbParameter> PList = new List<DbParameter>();
-                    DbParameter p1b = new SqlParameter("@Name", SqlDbType.VarChar, 50);
-                    p1b.Value = fileInfo.Name;
-                    PList.Add(p1b);
+                stream.Read(ImageData, 0, product.Image.ImageFile.ContentLength);
 
-                    DbParameter p2b = new SqlParameter("@Type", SqlDbType.VarChar, 10);
-                    p2b.Value = fileInfo.Extension;
-                    PList.Add(p2b);
+                string sql3 = "insert into Images(Name, Type, Image, ProductId) values(@Name, @Type, @ImageData, @ProductId)";
 
-                    DbParameter p3b = new SqlParameter("@ImageData", SqlDbType.VarBinary);
-                    p3b.Value = ImageData;
-                    PList.Add(p3b);
+                SqlCommand cmd2 = new SqlCommand(sql3, Connection);
 
-                    DbParameter p4b = new SqlParameter("@ProductId", SqlDbType.Int);
-                    p4b.Value = ProdId;
-                    PList.Add(p4b);
+                DbParameter p1b = new SqlParameter("@Name", SqlDbType.VarChar, 50);
+                p1b.Value = fileInfo.Name;
+                cmd2.Parameters.Add(p1b);
 
-                    bRes = idataAccess.InsOrUpdOrDel(sql3, PList) > 0 ? true : false;
-                }
+                DbParameter p2b = new SqlParameter("@Type", SqlDbType.VarChar, 10);
+                p2b.Value = fileInfo.Extension;
+                cmd2.Parameters.Add(p2b);
+
+                DbParameter p3b = new SqlParameter("@ImageData", SqlDbType.VarBinary);
+                p3b.Value = ImageData;
+                cmd2.Parameters.Add(p3b);
+
+                DbParameter p4b = new SqlParameter("@ProductId", SqlDbType.Int);
+                p4b.Value = ProdId;
+                cmd2.Parameters.Add(p4b);
+
+                rows = cmd2.ExecuteNonQuery();
+                if (rows <= 0)
+                    throw new Exception("Couldn't insert product image");
+
+                Transaction.Commit();
             }
             catch (Exception)
             {
+                bRes = false;
+                if (Transaction != null)
+                    Transaction.Rollback();
                 throw;
             }
+            finally
+            {
+                if (Transaction != null)
+                    Transaction.Dispose();
+
+                Connection.Close();
+            }
+
             return bRes;
         }
 
