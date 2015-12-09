@@ -18,7 +18,7 @@
                 @Html.DisplayNameFor(m => m.First<ProductModel>().LongDesc)
             </th>
             <th class="th">
-                @Html.DisplayNameFor(m => m.First<ProductModel>().Image)
+                @Html.DisplayNameFor(m => m.First<ProductModel>().Image.ImageFile)
             </th>
         </tr>
 
@@ -32,7 +32,15 @@
                     @Html.ActionLink("Details", "Details", "Products", new { ProdID = @item.ProductID }, null)
                 </td>
                 <td class="td">
-                    <img src=@Url.Content("~/res/images/" + item.Image) alt="@item.Image" />
+                    @{
+                        if (item.Image != null)
+                        {
+                            string imageBase64 = Convert.ToBase64String(item.Image.ImageData);
+                            //Add type to ProductModel class
+                            string imageSrc = string.Format("data:/image/jpeg;base64,{0}", imageBase64);
+                            <img src="@imageSrc" alt="@item.ShortDesc" />
+                        }
+                    }
                 </td>
             </tr>
         }

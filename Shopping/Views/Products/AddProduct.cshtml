@@ -89,7 +89,7 @@
         <tr>
             <td></td>
             <td>
-                @Html.TextBoxFor(m => m.ImageFile, new { type = "file" })
+                @Html.TextBoxFor(m => m.Image.ImageFile, new { type = "file" })
             </td>
             <td></td>
         </tr>
@@ -112,6 +112,12 @@
                 <input type="submit" value="Add Product" />
             </td>
             <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                @Html.ValueFor(m => m.Status)
+            </td>
         </tr>
     </table>
 }

@@ -171,7 +171,19 @@ namespace Shopping.Data
                 {
                     DataTable dataTable = GetProductsDB(catID);
                     TList = RepositoryHelper.ConvertToList<ProductModel>(dataTable);
-                    cache.Insert(key, TList);
+                    if (TList != null)
+                    {
+                        List<ImageModel> ImageList = null;
+                        foreach (var item in TList)
+                        {
+                            DataTable imageTable = GetImages(item.ProductID);
+                            ImageList = RepositoryHelper.ConvertToList<ImageModel>(imageTable);
+                            if (ImageList != null && ImageList.Count() > 0)
+                                item.Image = ImageList.First<ImageModel>();
+                        }
+
+                        cache.Insert(key, TList);
+                    }
                 }
             }
             catch (Exception)
@@ -187,12 +199,23 @@ namespace Shopping.Data
             List<ProductModel> TList = null;
             try
             {
+                // we should be adding each product related to catId in cache
+                // and here, we should be able to get a product in cache
                 string key = String.Format("Product_{0}", prodId);
                 product = cache.Retrieve<ProductModel>(key);
                 if (product == null)
                 {
                     DataTable dataTable = GetProductDB(prodId);
                     TList = RepositoryHelper.ConvertToList<ProductModel>(dataTable);
+
+                    List<ImageModel> ImageList = null;
+                    foreach (var item in TList)
+                    {
+                        DataTable imageTable = GetImages(item.ProductID);
+                        ImageList = RepositoryHelper.ConvertToList<ImageModel>(imageTable);
+                        if (ImageList != null && ImageList.Count() > 0)
+                            item.Image = ImageList.First<ImageModel>();
+                    }
 
                     // We should have only one item in the list
                     product = TList.First<ProductModel>();
@@ -247,11 +270,11 @@ namespace Shopping.Data
                     object obj = idataAccess.GetSingleAnswer(sql2, PList2);
                     string ProdId = obj != null ? obj.ToString() : "";
 
-                    stream = product.ImageFile.InputStream;
-                    fileInfo = new FileInfo(Path.GetFullPath(product.ImageFile.FileName));
-                    ImageData = new Byte[product.ImageFile.ContentLength];
+                    stream = product.Image.ImageFile.InputStream;
+                    fileInfo = new FileInfo(Path.GetFullPath(product.Image.ImageFile.FileName));
+                    ImageData = new Byte[product.Image.ImageFile.ContentLength];
 
-                    stream.Read(ImageData, 0, product.ImageFile.ContentLength);
+                    stream.Read(ImageData, 0, product.Image.ImageFile.ContentLength);
 
                     string sql3 = "insert into Images(Name, Type, Image, ProductId) values(@Name, @Type, @ImageData, @ProductId)";
                     List<DbParameter> PList = new List<DbParameter>();
@@ -310,6 +333,26 @@ namespace Shopping.Data
                 string sql = "select * from products where ProductId=@prodId";
                 List<DbParameter> PList = new List<DbParameter>();
                 DbParameter p1 = new SqlParameter("@prodId", SqlDbType.VarChar, 50);
+                p1.Value = prodId;
+                PList.Add(p1);
+
+                dataTable = idataAccess.GetDataTable(sql, PList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dataTable;
+        }
+
+        private DataTable GetImages(int prodId)
+        {
+            DataTable dataTable = null;
+            try
+            {
+                string sql = "select * from Images where ProductId=@prodId";
+                List<DbParameter> PList = new List<DbParameter>();
+                DbParameter p1 = new SqlParameter("@prodId", SqlDbType.Int);
                 p1.Value = prodId;
                 PList.Add(p1);
 

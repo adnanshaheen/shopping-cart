@@ -39,7 +39,15 @@
         </tr>
         <tr>
             <td>
-                <img src=@Url.Content("~/res/images/" + @Model.Product.Image) alt="@Model.Product.Image" />
+                @{
+                    if (Model.Product.Image != null)
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.Product.Image.ImageData);
+                        //Add type to ProductModel class
+                        string imageSrc = string.Format("data:/image/jpeg;base64,{0}", imageBase64);
+                        <img src="@imageSrc" alt="@Model.Product.ShortDesc" />
+                    }
+                }
             </td>
             <td align="justify">
                 @Html.HiddenFor(m => m.Product.LongDesc)
