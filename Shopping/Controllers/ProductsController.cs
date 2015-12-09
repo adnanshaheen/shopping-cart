@@ -115,7 +115,12 @@ namespace Shopping.Controllers
         public ActionResult AddProduct(ProductModel model)
         {
             if (ModelState.IsValid)
-                iBusinessShop.AddProduct(model);
+            {
+                if (iBusinessShop.AddProduct(model))
+                    model.Status = "Product added successfully";
+                else
+                    model.Status = "Couldn't add product";
+            }
             return View(model);
         }
     }
