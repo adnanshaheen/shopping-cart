@@ -1,7 +1,8 @@
-﻿@model Shopping.Models.ProductModel
+﻿@model ProductModel
+@using Shopping.Models;
 
 @{
-    ViewBag.Title = "AddProduct";
+    ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
@@ -16,7 +17,7 @@
     }
 </style>
 
-@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Product", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.ProductID)
     <table align="left" style="width:90%; border-collapse:collapse; white-space:nowrap">

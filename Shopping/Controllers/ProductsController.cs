@@ -105,7 +105,7 @@ namespace Shopping.Controllers
             return View(model);
         }
 
-        public ActionResult AddProduct(int? ProdID)
+        public ActionResult Product(int? ProdID)
         {
             ProductModel model = null;
             try
@@ -129,7 +129,7 @@ namespace Shopping.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddProduct(ProductModel model)
+        public ActionResult Product(ProductModel model)
         {
             if (ModelState.IsValid)
             {
