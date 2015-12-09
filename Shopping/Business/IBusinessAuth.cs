@@ -15,5 +15,6 @@ namespace Shopping.Business
         void SignOut();
         bool ValidateUser(string userName, string password);
         RegistrationModel GetCustomerInfo(string userName);
+        bool UpdateCustomer(RegistrationModel Info);
     }
 }

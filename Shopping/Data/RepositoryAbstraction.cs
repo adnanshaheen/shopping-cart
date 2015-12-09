@@ -48,6 +48,10 @@ namespace Shopping.Data
         {
             return iAuth.GetCustomerInfo(userName);
         }
+        public bool UpdateCustomer(RegistrationModel Info)
+        {
+            return iAuth.UpdateCustomer(Info);
+        }
         #endregion
 
         #region IRepositoryShop Members

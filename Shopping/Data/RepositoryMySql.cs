@@ -179,6 +179,58 @@ namespace Shopping.Data
             }
             return Customer;
         }
+
+        public bool UpdateCustomer(RegistrationModel Info)
+        {
+            bool bRes = false;
+            try
+            {
+                string sql = "update CustomerInfo set Address=@address, ZipCode=@zipCode, " +
+                    "City=@city, State=@state, CCNumber=@creditcard, CCExpiration=@expiration, CCType=@type"
+                    + "Email=@email";
+
+                List<DbParameter> PList = new List<DbParameter>();
+
+                DbParameter p1 = new MySqlParameter("@address", MySqlDbType.VarChar, 50);
+                p1.Value = Info.StreetAddress;
+                PList.Add(p1);
+
+                DbParameter p2 = new MySqlParameter("@zipCode", MySqlDbType.VarChar, 50);
+                p2.Value = Info.ZipCode;
+                PList.Add(p2);
+
+                DbParameter p3 = new MySqlParameter("@city", MySqlDbType.VarChar, 50);
+                p2.Value = Info.City;
+                PList.Add(p3);
+
+                DbParameter p4 = new MySqlParameter("@state", MySqlDbType.VarChar, 50);
+                p4.Value = Info.State;
+                PList.Add(p4);
+
+                DbParameter p5 = new MySqlParameter("@creditcard", MySqlDbType.VarChar, 50);
+                p5.Value = Info.CreditCard;
+                PList.Add(p5);
+
+                DbParameter p6 = new MySqlParameter("@expiration", MySqlDbType.VarChar, 50);
+                p6.Value = Info.Expiration;
+                PList.Add(p6);
+
+                DbParameter p7 = new MySqlParameter("@type", MySqlDbType.VarChar, 50);
+                p7.Value = Info.CreditCardType;
+                PList.Add(p7);
+
+                DbParameter p8 = new MySqlParameter("@email", MySqlDbType.VarChar, 50);
+                p8.Value = Info.Email;
+                PList.Add(p8);
+
+                bRes = idataAccess.InsOrUpdOrDel(sql, PList) > 0 ? true : false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return bRes;
+        }
         #endregion
 
         #region IRepositoryShop Members

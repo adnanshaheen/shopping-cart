@@ -136,5 +136,29 @@ namespace Shopping.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult Checkout(CheckoutModel model)
+        {
+            try
+            {
+                if (Request.Form["btnUpdateCustomer"] != null)
+                {
+                    if (iBusinessAuth.UpdateCustomer(model.Customer))
+                        model.Customer.Status = model.Customer.LastName + "'s information updated successfully";
+                    else
+                        model.Customer.Status = "Couldn't update customer information";
+                }
+                else if (Request.Form["btnCheckout"] != null)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Customer.Status = ex.Message;
+            }
+            return View(model);
+        }
     }
 }

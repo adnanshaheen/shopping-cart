@@ -68,6 +68,8 @@ namespace Shopping.Models
         [Display(Name ="Password Hint Answer")]
         public string PasswordHintA { get; set; }
 
+        public string Status { get; set; }
+
         public void SetFeilds(DataRow dataRow)
         {
             FirstName = (string)dataRow["FirstName"];
@@ -78,15 +80,7 @@ namespace Shopping.Models
             State = (string)dataRow["State"];
             CreditCard = (string)dataRow["CCNumber"];
             Expiration = (string)dataRow["CCExpiration"];
-            string Type = (string)dataRow["CCType"];
-            if (String.Equals(Type, "Visa"))            // we should store int types in database
-                CreditCardType = 1;
-            else if (String.Equals(Type, "MasterCard"))
-                CreditCardType = 2;
-            else if (String.Equals(Type, "AmericanExpress"))
-                CreditCardType = 3;
-            else if (String.Equals(Type, "Discover"))
-                CreditCardType = 4;
+            CreditCardType = (int)dataRow["CCType"];
             Email = (string)dataRow["Email"];
         }
     }

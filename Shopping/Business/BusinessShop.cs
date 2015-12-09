@@ -47,6 +47,11 @@ namespace Shopping.Business
         {
             return Repo.GetCustomerInfo(userName);
         }
+
+        public bool UpdateCustomer(RegistrationModel Info)
+        {
+            return Repo.UpdateCustomer(Info);
+        }
         #endregion
 
         #region IBusinessShop members
