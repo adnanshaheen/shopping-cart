@@ -12,5 +12,7 @@ namespace Shopping.Data
         bool AddProduct(ProductModel product);
 
         bool UpdateProduct(ProductModel product);
+
+        bool PlaceOrder(CheckoutModel order);
     }
 }

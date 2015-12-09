@@ -26,14 +26,14 @@ namespace Shopping.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginModel model, string retUrl)
+        public ActionResult Login(LoginModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
                 if (iBusinessAuth.SignIn(model.Username, model.Password, false))
                 {
-                    if (!String.IsNullOrEmpty(retUrl))
-                        return Redirect(retUrl);
+                    if (!String.IsNullOrEmpty(ReturnUrl))
+                        return Redirect(ReturnUrl);
                     else
                         return RedirectToAction("Index", "Home");
                 }

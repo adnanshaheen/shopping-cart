@@ -74,6 +74,11 @@ namespace Shopping.Data
         {
             return iRepositoryShop.UpdateProduct(product);
         }
+
+        public bool PlaceOrder(CheckoutModel order)
+        {
+            return iRepositoryShop.PlaceOrder(order);
+        }
         #endregion
     }
 }

@@ -76,6 +76,11 @@ namespace Shopping.Business
         {
             return Repo.UpdateProduct(product);
         }
+
+        public bool PlaceOrder(CheckoutModel order)
+        {
+            return Repo.PlaceOrder(order);
+        }
         #endregion
     }
 }

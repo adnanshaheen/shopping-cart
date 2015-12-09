@@ -451,6 +451,88 @@ namespace Shopping.Data
             }
             return bRes;
         }
+
+        public bool PlaceOrder(CheckoutModel order)
+        {
+            bool bRes = true;
+            string ConnectionString = ConfigurationManager.ConnectionStrings["SQLDB"].ConnectionString;
+            MySqlConnection Connection = new MySqlConnection(ConnectionString);
+            MySqlTransaction Transaction = null;
+
+            try
+            {
+                Connection.Open();
+                Transaction = Connection.BeginTransaction();
+
+                string sql1 = "select top 1 OrderNo from Orders order by OrderNo desc";
+                MySqlCommand cmd1 = new MySqlCommand(sql1, Connection);
+                cmd1.Transaction = Transaction;
+                object obj = cmd1.ExecuteScalar();
+                Int64 orderNo = 1;
+                if (obj != null)
+                    orderNo = int.Parse(obj.ToString()) + 1;
+
+                obj = GetUserId(order.Customer.UserName);
+                if (obj == null)
+                    throw new Exception("Can't find user in database");
+
+                foreach (var item in order.Cart.CartList)
+                {
+                    string sql2 = "insert into OrderDetails (OrderNo, ItemNo, Qty) values (" +
+                        "@orderNo, @ProdId, @Quantity)";
+                    MySqlCommand cmd2 = new MySqlCommand(sql2, Connection);
+                    DbParameter p1a = new MySqlParameter("@orderNo", MySqlDbType.Int64);
+                    p1a.Value = orderNo;
+                    cmd2.Parameters.Add(p1a);
+
+                    DbParameter p2a = new MySqlParameter("@ProdId", MySqlDbType.Int32);
+                    p2a.Value = item.ProductID;
+                    cmd2.Parameters.Add(p2a);
+
+                    DbParameter p3a = new MySqlParameter("@Quantity", MySqlDbType.Int32);
+                    p3a.Value = item.ProductQuantity;
+                    cmd2.Parameters.Add(p3a);
+                    cmd2.Transaction = Transaction;
+
+                    int rows1 = cmd2.ExecuteNonQuery();
+                    if (rows1 <= 0)
+                        throw new Exception("Couldn't place your details");
+                }
+
+                string sql3 = "insert into Orders (OrderNo,UserID, OrderDate) VALUES (" +
+                    "@orderNo, @userId, @orderDate)";
+                MySqlCommand cmd3 = new MySqlCommand(sql3, Connection);
+                DbParameter p1b = new MySqlParameter("@orderNo", MySqlDbType.Int32);
+                p1b.Value = orderNo;
+                cmd3.Parameters.Add(p1b);
+
+                DbParameter p2b = new MySqlParameter("@userId", MySqlDbType.VarChar, 50);
+                p2b.Value = obj.ToString();
+                cmd3.Parameters.Add(p2b);
+
+                DbParameter p3b = new MySqlParameter("@orderDate", MySqlDbType.VarChar, 50);
+                p3b.Value = System.DateTime.Now.ToString();
+                cmd3.Parameters.Add(p3b);
+                cmd3.Transaction = Transaction;
+
+                int rows2 = cmd3.ExecuteNonQuery();
+                if (rows2 <= 0)
+                    throw new Exception("Couldn't insert order in database");
+            }
+            catch (Exception)
+            {
+                bRes = false;
+                if (Transaction != null)
+                    Transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                if (Transaction != null)
+                    Transaction.Dispose();
+            }
+            return bRes;
+        }
         #endregion
 
         #region Private Members
@@ -506,10 +588,11 @@ namespace Shopping.Data
             DataTable dataTable = null;
             try
             {
-                string sql = "select * from images where ProductId=@prodId";
+                string sql = "select * from Images where ProductId=@prodId";
                 List<DbParameter> PList = new List<DbParameter>();
                 DbParameter p1 = new MySqlParameter("@prodId", MySqlDbType.Int32);
                 p1.Value = prodId;
+                PList.Add(p1);
 
                 dataTable = idataAccess.GetDataTable(sql, PList);
             }
@@ -525,23 +608,17 @@ namespace Shopping.Data
             DataTable Customer = null;
             try
             {
-                string sql1 = "select UserID from Users where Username=@userName";
-                List<DbParameter> PList1 = new List<DbParameter>();
-                DbParameter p1a = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
-                p1a.Value = userName;
-                PList1.Add(p1a);
-
-                object obj = idataAccess.GetSingleAnswer(sql1, PList1);
+                object obj = GetUserId(userName);
                 if (obj != null)
                 {
                     string userId = obj.ToString();
-                    string sql2 = "select * from CustomerInfos where UserID=@userId";
-                    List<DbParameter> PList2 = new List<DbParameter>();
-                    DbParameter p1b = new MySqlParameter("@userId", MySqlDbType.VarChar, 50);
-                    p1b.Value = userId;
-                    PList2.Add(p1b);
+                    string sql = "select * from CustomerInfos where UserID=@userId";
+                    List<DbParameter> PList = new List<DbParameter>();
+                    DbParameter p1 = new MySqlParameter("@userId", MySqlDbType.VarChar, 50);
+                    p1.Value = userId;
+                    PList.Add(p1);
 
-                    Customer = idataAccess.GetDataTable(sql2, PList2);
+                    Customer = idataAccess.GetDataTable(sql, PList);
                 }
             }
             catch (Exception)
@@ -549,6 +626,26 @@ namespace Shopping.Data
                 throw;
             }
             return Customer;
+        }
+
+        private object GetUserId(string userName)
+        {
+            object obj = null;
+            try
+            {
+                string sql = "select UserID from Users where Username=@userName";
+                List<DbParameter> PList = new List<DbParameter>();
+                DbParameter p1 = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+                p1.Value = userName;
+                PList.Add(p1);
+
+                obj = idataAccess.GetSingleAnswer(sql, PList);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return obj;
         }
         #endregion
     }

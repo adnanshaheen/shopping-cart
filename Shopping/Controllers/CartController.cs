@@ -53,6 +53,87 @@ namespace Shopping.Controllers
         [HttpPost]
         public ActionResult ViewCart(CartListModel model)
         {
+            model = Cart(model);
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult Checkout()
+        {
+            CheckoutModel model = new CheckoutModel();
+            model.Cart = new CartListModel();
+            List<CartModel> cartCookieList = null;
+            try
+            {
+                cartCookieList = new List<CartModel>();
+                CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
+                model.Cart.CartList = cartCookieList;
+                foreach (var item in model.Cart.CartList)
+                {
+                    ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
+                    if (product != null)
+                    {
+                        item.ProductName = product.ShortDesc;
+                        item.ProductPrice = product.Price;
+                    }
+                }
+
+                model.Customer = iBusinessAuth.GetCustomerInfo(HttpContext.User.Identity.Name);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(CheckoutModel model)
+        {
+            try
+            {
+                if (Request.Form["btnUpdateCustomer"] != null)
+                {
+                    if (iBusinessAuth.UpdateCustomer(model.Customer))
+                        model.Customer.Status = model.Customer.LastName + "'s information updated successfully";
+                    else
+                        model.Customer.Status = "Couldn't update customer information";
+                }
+                else if (Request.Form["btnCheckout"] != null)
+                {
+                    model.Customer.UserName = HttpContext.User.Identity.Name;
+                    if (iBusinessShop.PlaceOrder(model))
+                        model.Customer.Status = "Order placed successfully";
+                    else
+                        model.Customer.Status = "Couldn't place your order";
+
+                    foreach (var item in model.Cart.CartList)
+                    {
+                        ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
+                        if (product != null)
+                        {
+                            item.ProductName = product.ShortDesc;
+                            item.ProductPrice = product.Price;
+                        }
+                    }
+                }
+                else if (Request.Form["btnClear"] != null ||
+                    Request.Form["btnUpdate"] != null ||
+                    Request.Form["btnCancel"] != null)
+                {
+                    model.Cart = Cart(model.Cart);
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Customer.Status = ex.Message;
+            }
+            return View(model);
+        }
+
+        private CartListModel Cart(CartListModel model)
+        {
             List<CartModel> cartCookieList = null;
             if (Request.Form["btnClear"] != null)
             {
@@ -103,62 +184,7 @@ namespace Shopping.Controllers
             if (model.CartList == null)
                 model.CartList = new List<CartModel>();
 
-            return View(model);
-        }
-
-        [Authorize]
-        public ActionResult Checkout()
-        {
-            CheckoutModel model = new CheckoutModel();
-            model.Cart = new CartListModel();
-            List<CartModel> cartCookieList = null;
-            try
-            {
-                cartCookieList = new List<CartModel>();
-                CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
-                model.Cart.CartList = cartCookieList;
-                foreach (var item in model.Cart.CartList)
-                {
-                    ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
-                    if (product != null)
-                    {
-                        item.ProductName = product.ShortDesc;
-                        item.ProductPrice = product.Price;
-                    }
-                }
-
-                model.Customer = iBusinessAuth.GetCustomerInfo(HttpContext.User.Identity.Name);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Checkout(CheckoutModel model)
-        {
-            try
-            {
-                if (Request.Form["btnUpdateCustomer"] != null)
-                {
-                    if (iBusinessAuth.UpdateCustomer(model.Customer))
-                        model.Customer.Status = model.Customer.LastName + "'s information updated successfully";
-                    else
-                        model.Customer.Status = "Couldn't update customer information";
-                }
-                else if (Request.Form["btnCheckout"] != null)
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                model.Customer.Status = ex.Message;
-            }
-            return View(model);
+            return model;
         }
     }
 }
