@@ -310,27 +310,27 @@ namespace Shopping.Data
                 string sql1 = "update Products set CatID=@catID, ProductSDesc=@ProductSDesc, ProductLDesc=@ProductLDesc,"
                     + "Price=@Price, Inventory=@Inventory where ProductId=@prodId";
                 List<DbParameter> PList1 = new List<DbParameter>();
-                DbParameter p1a = new SqlParameter("@catID", SqlDbType.Int);
+                DbParameter p1a = new MySqlParameter("@catID", MySqlDbType.Int32);
                 p1a.Value = product.CatagoryID;
                 PList1.Add(p1a);
 
-                DbParameter p2a = new SqlParameter("@ProductSDesc", SqlDbType.VarChar, 50);
+                DbParameter p2a = new MySqlParameter("@ProductSDesc", MySqlDbType.VarChar, 50);
                 p2a.Value = product.ShortDesc;
                 PList1.Add(p2a);
 
-                DbParameter p3a = new SqlParameter("@ProductLDesc", SqlDbType.Text);
+                DbParameter p3a = new MySqlParameter("@ProductLDesc", MySqlDbType.Text);
                 p3a.Value = product.LongDesc;
                 PList1.Add(p3a);
 
-                DbParameter p4a = new SqlParameter("@Price", SqlDbType.Money);
+                DbParameter p4a = new MySqlParameter("@Price", MySqlDbType.Decimal);
                 p4a.Value = product.Price;
                 PList1.Add(p4a);
 
-                DbParameter p5a = new SqlParameter("@Inventory", SqlDbType.Int);
+                DbParameter p5a = new MySqlParameter("@Inventory", MySqlDbType.Int32);
                 p5a.Value = product.Inventory;
                 PList1.Add(p5a);
 
-                DbParameter p6a = new SqlParameter("@prodId", SqlDbType.Int);
+                DbParameter p6a = new MySqlParameter("@prodId", MySqlDbType.Int32);
                 p6a.Value = product.ProductID;
                 PList1.Add(p6a);
 
@@ -367,7 +367,7 @@ namespace Shopping.Data
                 else
                 {
                     sql = "select * from  products where catid=@catID";
-                    DbParameter p1 = new SqlParameter("@catID", SqlDbType.VarChar, 50);
+                    DbParameter p1 = new MySqlParameter("@catID", MySqlDbType.VarChar, 50);
                     p1.Value = catID;
                     PList.Add(p1);
                 }
