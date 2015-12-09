@@ -10,11 +10,11 @@ namespace Shopping.Business
 {
     public class BusinessShop : IBusinessAuth, IBusinessShop
     {
-        private RepositoryAbstraction Repo = null;
+        private IRepositoryAbstraction Repo = null;
 
         public BusinessShop()
         {
-            Repo = new RepositoryAbstraction();
+            Repo = GenericFactory<RepositoryAbstraction, IRepositoryAbstraction>.CreateInstance();
         }
 
         #region IBusinessAuth members
