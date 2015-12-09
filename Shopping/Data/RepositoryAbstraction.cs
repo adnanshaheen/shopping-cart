@@ -60,6 +60,11 @@ namespace Shopping.Data
         {
             return iRepositoryShop.AddProduct(product);
         }
+
+        public bool UpdateProduct(ProductModel product)
+        {
+            return iRepositoryShop.UpdateProduct(product);
+        }
         #endregion
     }
 }

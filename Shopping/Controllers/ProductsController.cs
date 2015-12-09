@@ -111,9 +111,15 @@ namespace Shopping.Controllers
             try
             {
                 if (ProdID != null)
+                {
                     model = iBusinessShop.GetProduct(ProdID.ToString());
+                    model.Update = true;
+                }
                 else
+                {
                     model = new ProductModel();
+                    model.Update = false;
+                }
             }
             catch (Exception)
             {
@@ -127,10 +133,16 @@ namespace Shopping.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (iBusinessShop.AddProduct(model))
-                    model.Status = "Product added successfully";
+                bool bRes = false;
+                if (model.Update)
+                    bRes = iBusinessShop.UpdateProduct(model);
                 else
-                    model.Status = "Couldn't add product";
+                    bRes = iBusinessShop.AddProduct(model);
+
+                if (bRes)
+                    model.Status = "Product " + (model.Update ? "updated" : "added") + " successfully";
+                else
+                    model.Status = "Couldn't " + (model.Update ? "update" : "add") + " product";
             }
             return View(model);
         }

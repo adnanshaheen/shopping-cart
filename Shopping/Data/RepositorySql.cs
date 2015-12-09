@@ -303,6 +303,56 @@ namespace Shopping.Data
             }
             return bRes;
         }
+
+        public bool UpdateProduct(ProductModel product)
+        {
+            bool bRes = false;
+            try
+            {
+                string sql1 = "update Products set CatID=@catID, ProductSDesc=@ProductSDesc, ProductLDesc=@ProductLDesc,"
+                    + "Price=@Price, Inventory=@Inventory where ProductId=@prodId";
+                List<DbParameter> PList1 = new List<DbParameter>();
+                DbParameter p1a = new SqlParameter("@catID", SqlDbType.Int);
+                p1a.Value = product.CatagoryID;
+                PList1.Add(p1a);
+
+                DbParameter p2a = new SqlParameter("@ProductSDesc", SqlDbType.VarChar, 50);
+                p2a.Value = product.ShortDesc;
+                PList1.Add(p2a);
+
+                DbParameter p3a = new SqlParameter("@ProductLDesc", SqlDbType.Text);
+                p3a.Value = product.LongDesc;
+                PList1.Add(p3a);
+
+                DbParameter p4a = new SqlParameter("@Price", SqlDbType.Money);
+                p4a.Value = product.Price;
+                PList1.Add(p4a);
+
+                DbParameter p5a = new SqlParameter("@Inventory", SqlDbType.Int);
+                p5a.Value = product.Inventory;
+                PList1.Add(p5a);
+
+                DbParameter p6a = new SqlParameter("@prodId", SqlDbType.Int);
+                p6a.Value = product.ProductID;
+                PList1.Add(p6a);
+
+                bRes = idataAccess.InsOrUpdOrDel(sql1, PList1) > 0 ? true : false;
+                if (bRes)
+                {
+                    string key = String.Format("Product_{0}", product.ProductID);
+                    cache.Remove(key);
+                    key = String.Format("Products_{0}", product.CatagoryID);
+                    cache.Remove(key);
+                    key = "Products_";
+                    cache.Remove(key);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return bRes;
+        }
         #endregion
 
         private DataTable GetProductsDB(string catID)

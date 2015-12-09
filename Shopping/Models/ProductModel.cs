@@ -36,6 +36,8 @@ namespace Shopping.Models
 
         public string Status { get; set; }
 
+        public bool Update { get; set; }
+
         #region IEntity Members
         public void SetFeilds(DataRow dataRow)
         {

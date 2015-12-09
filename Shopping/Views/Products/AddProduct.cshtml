@@ -18,6 +18,7 @@
 
 @using (Html.BeginForm("AddProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.HiddenFor(m => m.ProductID)
     <table align="left" style="width:90%; border-collapse:collapse; white-space:nowrap">
         <tr>
             <td align="center" colspan="3"
@@ -109,7 +110,19 @@
                 <input type="reset" value="Reset" />
             </td>
             <td>
-                <input type="submit" value="Add Product" />
+                @Html.HiddenFor(m => m.Update)
+                @{
+                    string value = "";
+                    if (Model.Update)
+                    {
+                        value = "Update Product";
+                    }
+                    else
+                    {
+                        value = "Add Products";
+                    }
+                    <input type="submit" value="@value" />
+                }
             </td>
             <td></td>
         </tr>
