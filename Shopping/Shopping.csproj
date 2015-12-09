@@ -193,6 +193,7 @@
     <Compile Include="Models\CartListModel.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\CheckoutModel.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProductCartModel.cs" />
@@ -223,6 +224,7 @@
     <Content Include="Views\Cart\ViewCart.cshtml" />
     <Content Include="Views\Products\Product.cshtml" />
     <Content Include="Views\Products\ViewProducts.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

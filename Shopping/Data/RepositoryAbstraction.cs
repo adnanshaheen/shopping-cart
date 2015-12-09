@@ -43,6 +43,11 @@ namespace Shopping.Data
         {
             return iAuth.ValidateUser(userName, password);
         }
+
+        public RegistrationModel GetCustomerInfo(string userName)
+        {
+            return iAuth.GetCustomerInfo(userName);
+        }
         #endregion
 
         #region IRepositoryShop Members

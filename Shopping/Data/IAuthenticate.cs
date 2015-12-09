@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shopping.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Shopping.Data
         bool ChangePassword(string userName, string password, string newPassword);
         void SignOut();
         bool ValidateUser(string userName, string password);
+        RegistrationModel GetCustomerInfo(string userName);
     }
 }

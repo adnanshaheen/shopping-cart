@@ -161,7 +161,36 @@
             @Html.DisplayNameFor(m => m.CreditCardType)
         </td>
         <td>
-            &nbsp;@Html.TextBoxFor(m => m.CreditCardType)
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                {
+                    Text = "-- Select --",
+                    Value = "0",
+                    Selected = true
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "VISA",
+                    Value = "1"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "MASTERCARD",
+                    Value = "2",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "AMERICANEXPRESS",
+                    Value = "3"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "DISCOVER",
+                    Value = "4"
+                });
+            }
+            @Html.DropDownListFor(m => m.CreditCardType, listItems)
         </td>
         <td>
             @Html.ValidationMessageFor(m => m.CreditCardType)

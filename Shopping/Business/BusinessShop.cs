@@ -42,6 +42,11 @@ namespace Shopping.Business
         {
             return Repo.ValidateUser(userName, password);
         }
+
+        public RegistrationModel GetCustomerInfo(string userName)
+        {
+            return Repo.GetCustomerInfo(userName);
+        }
         #endregion
 
         #region IBusinessShop members

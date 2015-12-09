@@ -13,10 +13,12 @@ namespace Shopping.Controllers
     public class CartController : Controller
     {
         private IBusinessShop iBusinessShop = null;
+        private IBusinessAuth iBusinessAuth = null;
 
         protected override void Initialize(RequestContext requestContext)
         {
             iBusinessShop = GenericFactory<BusinessShop, IBusinessShop>.CreateInstance();
+            iBusinessAuth = GenericFactory<BusinessShop, IBusinessAuth>.CreateInstance();
             base.Initialize(requestContext);
         }
 
@@ -30,7 +32,6 @@ namespace Shopping.Controllers
                 cartCookieList = new List<CartModel>();
                 CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
                 cartList.CartList = cartCookieList;
-                //foreach (var item in cartCookieList)
                 foreach (var item in cartList.CartList)
                 {
                     ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
@@ -101,6 +102,37 @@ namespace Shopping.Controllers
             }
             if (model.CartList == null)
                 model.CartList = new List<CartModel>();
+
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult Checkout()
+        {
+            CheckoutModel model = new CheckoutModel();
+            model.Cart = new CartListModel();
+            List<CartModel> cartCookieList = null;
+            try
+            {
+                cartCookieList = new List<CartModel>();
+                CookieHelper<List<CartModel>>.GetValueFromCookie("cart", ref cartCookieList);
+                model.Cart.CartList = cartCookieList;
+                foreach (var item in model.Cart.CartList)
+                {
+                    ProductModel product = iBusinessShop.GetProduct(item.ProductID.ToString());
+                    if (product != null)
+                    {
+                        item.ProductName = product.ShortDesc;
+                        item.ProductPrice = product.Price;
+                    }
+                }
+
+                model.Customer = iBusinessAuth.GetCustomerInfo(HttpContext.User.Identity.Name);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             return View(model);
         }

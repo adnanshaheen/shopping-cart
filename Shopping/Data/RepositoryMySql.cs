@@ -76,7 +76,7 @@ namespace Shopping.Data
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
-                    roles += reader["RoleName"].ToString() + "|";
+                    roles += reader["Role"].ToString() + "|";
                 if (roles != "")  // remove last "|"
                     roles = roles.Substring(0, roles.Length - 1);
                 conn.Close();
@@ -155,6 +155,30 @@ namespace Shopping.Data
             }
 
             return obj != null ? true : false;
+        }
+        public RegistrationModel GetCustomerInfo(string userName)
+        {
+            RegistrationModel Customer = null;
+            List<RegistrationModel> TList = null;
+            try
+            {
+                // add transaction
+                string key = String.Format("Customer_{0}", userName);
+                Customer = cache.Retrieve<RegistrationModel>(key);
+                if (Customer == null)
+                {
+                    DataTable dataTable = GetCustomerDB(userName);
+                    TList = RepositoryHelper.ConvertToList<RegistrationModel>(dataTable);
+
+                    Customer = TList.First<RegistrationModel>();
+                    cache.Insert(key, Customer);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Customer;
         }
         #endregion
 
@@ -353,6 +377,7 @@ namespace Shopping.Data
         }
         #endregion
 
+        #region Private Members
         private DataTable GetProductsDB(string catID)
         {
             DataTable dataTable = null;
@@ -418,5 +443,38 @@ namespace Shopping.Data
             }
             return dataTable;
         }
+
+        private DataTable GetCustomerDB(string userName)
+        {
+            DataTable Customer = null;
+            try
+            {
+                // add transaction
+                string sql1 = "select UserID from Users where Username=@userName";
+                List<DbParameter> PList1 = new List<DbParameter>();
+                DbParameter p1a = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+                p1a.Value = userName;
+                PList1.Add(p1a);
+
+                object obj = idataAccess.GetSingleAnswer(sql1, PList1);
+                if (obj != null)
+                {
+                    string userId = obj.ToString();
+                    string sql2 = "select * from CustomerInfos where UserID=@userId";
+                    List<DbParameter> PList2 = new List<DbParameter>();
+                    DbParameter p1b = new MySqlParameter("@userId", MySqlDbType.VarChar, 50);
+                    p1b.Value = userId;
+                    PList2.Add(p1b);
+
+                    Customer = idataAccess.GetDataTable(sql2, PList2);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Customer;
+        }
+        #endregion
     }
 }

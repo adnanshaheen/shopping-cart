@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Shopping.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Data;
 
 namespace Shopping.Models
 {
-    public class RegistrationModel
+    public class RegistrationModel : IEntity
     {
         [Required(ErrorMessage = "First name is required ...")]
         [StringLength(50, ErrorMessage = "Length can't exceed 50 charectars")]
@@ -65,5 +67,27 @@ namespace Shopping.Models
 
         [Display(Name ="Password Hint Answer")]
         public string PasswordHintA { get; set; }
+
+        public void SetFeilds(DataRow dataRow)
+        {
+            FirstName = (string)dataRow["FirstName"];
+            LastName = (string)dataRow["LastName"];
+            StreetAddress = (string)dataRow["Address"];
+            ZipCode = (string)dataRow["Zipcode"];
+            City = (string)dataRow["City"];
+            State = (string)dataRow["State"];
+            CreditCard = (string)dataRow["CCNumber"];
+            Expiration = (string)dataRow["CCExpiration"];
+            string Type = (string)dataRow["CCType"];
+            if (String.Equals(Type, "Visa"))            // we should store int types in database
+                CreditCardType = 1;
+            else if (String.Equals(Type, "MasterCard"))
+                CreditCardType = 2;
+            else if (String.Equals(Type, "AmericanExpress"))
+                CreditCardType = 3;
+            else if (String.Equals(Type, "Discover"))
+                CreditCardType = 4;
+            Email = (string)dataRow["Email"];
+        }
     }
 }

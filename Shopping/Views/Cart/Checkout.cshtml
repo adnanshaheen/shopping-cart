@@ -1,0 +1,230 @@
+﻿@model CheckoutModel
+@using Shopping.Models;
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+}
+
+<style>
+    .singleTextBox {
+        width: 5em;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    <table style="width:90%">
+        <tr>
+            <td colspan="5">
+                <hr style="border-color:#0000FF; border-width:3px" />
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Cart.CartList.First().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Cart.CartList.First().ProductQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Cart.CartList.First().ProductPrice)
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+        @{ decimal Total = 0; }
+        @for (int Index = 0; Index < Model.Cart.CartList.Count(); ++Index)
+        {
+            <tr>
+                @Html.HiddenFor(m => m.Cart.CartList[Index].ProductID)
+                <td align="center">
+                    @Model.Cart.CartList[Index].ProductName
+                </td>
+                <td align="center">
+                    @Html.TextBoxFor(m => m.Cart.CartList[Index].ProductQuantity)
+                </td>
+                <td align="center">
+                    $@Model.Cart.CartList[Index].ProductPrice
+                </td>
+                <td align="center">
+                    $@(Model.Cart.CartList[Index].ProductPrice * Model.Cart.CartList[Index].ProductQuantity)
+                    @{ Total += Model.Cart.CartList[Index].ProductPrice * Model.Cart.CartList[Index].ProductQuantity; }
+                </td>
+            </tr>
+                        }
+        <tr>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>
+                Grand Total
+            </td>
+            <td>
+                $@Total
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td align="right">
+                <input type="submit" value="Clear All" id="btnClear" name="btnClear" />
+            </td>
+            <td align="center">
+                <input type="submit" value="Update Cart" id="btnUpdate" name="btnUpdate" />
+            </td>
+            <td>
+                <input type="submit" value="Cancel Changes" id="btnCancel" name="btnCancel" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <text style="color:#006600">
+                    To remove an individual item, set the quantity to zero)
+                </text>
+            </td>
+        </tr>
+    </table>
+    <table style="width:90%">
+        <tr>
+            <td colspan="5">
+                <hr style="border-color:#0000FF; border-width:3px" />
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr style="font-size:12pt">
+            <td colspan="6" style="color:#990066;font-size: large;">
+                Please update the following shipping and credit card information, if it is different
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.FirstName)
+            </td>
+            <td>
+                @Html.ValueFor(m => m.Customer.FirstName)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.LastName)
+            </td>
+            <td>
+                @Html.ValueFor(m => m.Customer.LastName)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.StreetAddress)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.StreetAddress)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.City)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.City)
+            </td>
+            <td>
+                @Html.DisplayNameFor(m => m.Customer.State)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.State, new { @class = "singleTextBox" })
+            </td>
+            <td>
+                @Html.DisplayNameFor(m => m.Customer.ZipCode)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.ZipCode, new { @class = "singleTextBox" })
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.Email)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.Email)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.CreditCard)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.CreditCard)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.CreditCardType)
+            </td>
+            <td>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "-- Select --",
+                        Value = "0",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "VISA",
+                        Value = "1"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "MASTERCARD",
+                        Value = "2",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "AMERICANEXPRESS",
+                        Value = "3"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DISCOVER",
+                        Value = "4"
+                    });
+                }
+                @Html.DropDownListFor(m => m.Customer.CreditCardType, listItems)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td align="right">
+                @Html.DisplayNameFor(m => m.Customer.Expiration)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.Expiration)
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td align="right">
+                <input type="submit" value="Update Info" id="btnUpdate" name="btnUpdate" />
+            </td>
+            <td>
+                <input type="submit" value="Checkout" id="btnCheckout" name="btnCheckout" />
+            </td>
+            <td colspan="4"></td>
+        </tr>
+    </table>
+}
