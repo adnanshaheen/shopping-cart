@@ -164,7 +164,7 @@ namespace Shopping.Controllers
             }
             else if (Request.Form["btnCancel"] != null)
             {
-                if (model.CartList != null && model.CartList.Any())
+                if (model.CartList != null)
                 {
                     CookieHelper<List<CartModel>>.GetValueFromCookie("oldcart", ref cartCookieList);
                     CookieHelper<List<CartModel>>.SetValueToCookie("oldcart", model.CartList, DateTime.Now.AddDays(-1d));

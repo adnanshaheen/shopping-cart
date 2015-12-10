@@ -40,16 +40,16 @@
         {
             <tr>
                 @Html.HiddenFor(m => m.CartList[Index].ProductID)
-                <td align="center">
+                <td align="right">
                     @Model.CartList[Index].ProductName
                 </td>
-                <td align="center">
+                <td>
                     @Html.TextBoxFor(m => m.CartList[Index].ProductQuantity)
                 </td>
-                <td align="center">
+                <td>
                     $@Model.CartList[Index].ProductPrice
                 </td>
-                <td align="center">
+                <td>
                     $@(Model.CartList[Index].ProductPrice * Model.CartList[Index].ProductQuantity)
                     @{ Total += Model.CartList[Index].ProductPrice * Model.CartList[Index].ProductQuantity; }
                 </td>
@@ -63,7 +63,7 @@
             <td>
                 Grand Total
             </td>
-            <td>
+            <td style="font-size:small; font-weight:bold">
                 $@Total
             </td>
         </tr>

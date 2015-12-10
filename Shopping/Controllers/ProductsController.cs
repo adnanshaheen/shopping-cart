@@ -93,6 +93,9 @@ namespace Shopping.Controllers
                         cartCookieList.Add(model.Cart);
                         ProductQuantity = model.Cart.ProductQuantity;
                     }
+
+                    model.Product = iBusinessShop.GetProduct(model.Product.ProductID.ToString());
+
                     CookieHelper<List<CartModel>>.SetValueToCookie("cart", cartCookieList, DateTime.MaxValue);
                     model.Product.Status = ProductQuantity.ToString() + " items of " +
                         model.Product.ShortDesc + " added to your cart.";

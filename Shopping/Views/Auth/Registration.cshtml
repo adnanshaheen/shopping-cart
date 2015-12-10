@@ -62,7 +62,7 @@
 
 @using (Html.BeginForm())
 {
-<table style="width:100%;">
+<table style="width:100%;border-collapse:collapse;white-space:nowrap;">
     <tr>
         <td colspan="3">
             &nbsp;
@@ -75,7 +75,7 @@
         <td>
             &nbsp;@Html.TextBoxFor(m => m.FirstName)
         </td>
-        <td>
+        <td width="100%">
             @Html.ValidationMessageFor(m => m.FirstName)
         </td>
     </tr>
@@ -190,7 +190,7 @@
                     Value = "4"
                 });
             }
-            @Html.DropDownListFor(m => m.CreditCardType, listItems)
+            &nbsp;@Html.DropDownListFor(m => m.CreditCardType, listItems)
         </td>
         <td>
             @Html.ValidationMessageFor(m => m.CreditCardType)
