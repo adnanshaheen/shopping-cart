@@ -72,6 +72,10 @@
     border-color:black;
 }
 
+.tableHighlight {
+    color: cadetblue;
+}
+
 .tr:nth-child(odd) {
     background-color: #ffffc0;
 }

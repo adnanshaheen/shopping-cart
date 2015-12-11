@@ -5,9 +5,20 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+<script type="text/javascript">
+        $(function () {
+            $("#navTable tr").hover(function () {
+                $(this).addClass("tableHighlight");
+            },
+            function () {
+                $(this).removeClass("tableHighlight");
+            });
+        });
+</script>
+
 @using (Html.BeginForm())
 {
-    <table style="border:thin solid;border-collapse:collapse;">
+    <table id="navTable" style="border:thin solid;border-collapse:collapse;">
         <tr style="white-space:nowrap">
             <th class="th">
                 Edit Product

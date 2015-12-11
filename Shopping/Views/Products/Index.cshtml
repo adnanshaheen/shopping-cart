@@ -7,9 +7,21 @@
     Layout = "~/Views/Shared/_MasterLayout.cshtml";
 }
 
+<script type="text/javascript">
+        $(function () {
+            $("#navTable tr").hover(function () {
+                $(this).addClass("tableHighlight");
+            },
+            function () {
+                $(this).removeClass("tableHighlight");
+            });
+        });
+</script>
+
+
 @using (Html.BeginForm())
 {
-    <table style="border:thin solid;border-collapse:collapse;width:80%">
+    <table id="navTable" style="border:thin solid;border-collapse:collapse;width:80%">
         <tr>
             <th class="th">
                 @Html.DisplayNameFor(m => m.First<ProductModel>().ShortDesc)
