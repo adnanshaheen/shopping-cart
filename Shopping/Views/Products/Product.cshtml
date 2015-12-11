@@ -7,13 +7,40 @@
 }
 
 <style>
-    .singleTextBox {
-        width: 4em;
+        .singleTextBox {
+        width: 5em;
+        display: block;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
     .myTextBox{
         max-width:100%;
         height:104px;
-        width:500px
+        width:500px;
+        display: block;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555555;
+        vertical-align: middle;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
 </style>
 
@@ -32,7 +59,8 @@
                 @Html.DisplayNameFor(m => m.ShortDesc)
             </td>
             <td>
-                @Html.TextBoxFor(m => m.ShortDesc)
+                @Html.EditorFor(m => m.ShortDesc,
+                    new { htmlAttributes = new { @class = "form-control" } })
             </td>
             <td width="50%">
                 @Html.ValidationMessageFor(m => m.ShortDesc)
@@ -62,7 +90,7 @@
                         Value = "30"
                     });
                 }
-                @Html.DropDownListFor(m => m.CatagoryID, listItems)
+                @Html.DropDownListFor(m => m.CatagoryID, listItems, new { @class = "form-control" } )
             </td>
             <td></td>
         </tr>
@@ -106,9 +134,10 @@
                 @Html.ValidationMessageFor(m => m.Inventory)
             </td>
         </tr>
+        <tr><td colspan="3"></td></tr>
         <tr>
             <td align="right">
-                <input type="reset" value="Reset" />
+                <input type="reset" value="Reset" class="btn btn-default" />
             </td>
             <td>
                 @Html.HiddenFor(m => m.Update)
@@ -122,7 +151,7 @@
                     {
                         value = "Add Products";
                     }
-                    <input type="submit" value="@value" />
+                    <input type="submit" value="@value" class="btn btn-default" />
                 }
             </td>
             <td></td>
