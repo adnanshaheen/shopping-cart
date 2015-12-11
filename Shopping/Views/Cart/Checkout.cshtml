@@ -64,7 +64,7 @@
                 <td align="center">
                     $@Model.Cart.CartList[Index].ProductPrice
                 </td>
-                <td align="center">
+                <td align="center" style="font-size:small; font-weight:bold">
                     $@(Model.Cart.CartList[Index].ProductPrice * Model.Cart.CartList[Index].ProductQuantity)
                     @{ Total += Model.Cart.CartList[Index].ProductPrice * Model.Cart.CartList[Index].ProductQuantity; }
                 </td>
@@ -78,7 +78,7 @@
             <td>
                 Grand Total
             </td>
-            <td>
+            <td style="font-size:small; font-weight:bold">
                 $@Total
             </td>
         </tr>
