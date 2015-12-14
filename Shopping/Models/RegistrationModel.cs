@@ -42,6 +42,7 @@ namespace Shopping.Models
         public string Email { get; set; }
 
         [Display(Name ="Credit Card Number")]
+        [CCValidator]
         public string CreditCard { get; set; }
 
         [Display(Name ="Credit Card Type")]

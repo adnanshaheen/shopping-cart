@@ -133,6 +133,7 @@
                 @Html.DisplayNameFor(m => m.Customer.LastName)
             </td>
             <td>
+                @Html.HiddenFor(m => m.Customer.LastName)
                 @Html.ValueFor(m => m.Customer.LastName)
             </td>
             <td colspan="4"></td>
