@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -152,7 +153,9 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
   </ItemGroup>
@@ -170,6 +173,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Data\DataAccessMySql.cs" />
+    <Compile Include="Data\DataAccessOrcl.cs" />
     <Compile Include="Data\DataAccessSql.cs" />
     <Compile Include="Data\IAuthenticate.cs" />
     <Compile Include="Data\IDataAccess.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="Data\IRepositoryShop.cs" />
     <Compile Include="Data\RepositoryAbstraction.cs" />
     <Compile Include="Data\RepositoryMySql.cs" />
+    <Compile Include="Data\RepositoryOrcl.cs" />
     <Compile Include="Data\RepositorySql.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
